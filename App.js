@@ -7,10 +7,8 @@
 //  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, ScrollView } from 'react-native';
-import { Container, Header, Content, Tab, Tabs, ScrollableTab, Left, Body, Right, Button, Icon, Title } from 'native-base';
-import Tab1 from './src/component/Tab1';
-import MainFooter from './src/component/MainFooter';
+import { Platform } from 'react-native';
+import MainNetwork from './src/component/network/MainNetwork';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -20,113 +18,12 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component {
-  state = {
-    offset: undefined,
-    isShownFooter: true,
-  };
-
   render() {
     return (
-      <View style={ { flex: 1, flexDirection: 'column' } } >
-        <Container>
-
-          <Content onScroll={ this.onScrollContent }>
-            <Header hasTabs>
-              <Left>
-                <Button transparent>
-                  <Icon name='menu' />
-                </Button>
-              </Left>
-              <Body>
-                <Title>Header</Title>
-              </Body>
-              <Right>
-                <Button transparent>
-                  <Icon name='arrow-back' />
-                </Button>
-              </Right>
-            </Header>
-            <Tabs renderTabBar={ () => <ScrollableTab /> }>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-              <Tab heading="Tab1">
-                <Tab1 />
-              </Tab>
-            </Tabs>
-          </Content>
-        </Container>
-        <MainFooter isShow={ this.state.isShownFooter } />
-      </View>
+      <MainNetwork />
     );
   }
-
-  onScrollContent = (event) => {
-    const { offset, isShownFooter } = this.state;
-    const currentOffset = event.nativeEvent.contentOffset.y;
-    const dif = currentOffset - (offset || 0);
-
-    // if (Math.abs(dif) < 3) {
-    //   console.log('unclear');
-    // } else 
-
-    if (currentOffset < this.offset) {
-      if (!isShownFooter) {
-        this.setState({ isShownFooter: true });
-      }
-    } else {
-      if (isShownFooter) {
-        this.setState({ isShownFooter: false });
-      }
-    }
-    this.offset = currentOffset;
-  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
 
 /*
 import React, { Component, Object } from 'react';
