@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, View, Text } from 'react-native';
-
+import NavigationService from './NavigationService';
+import AppStack from './AppStack';
 
 class HomeScreen extends Component {
     static navigationOptions = ({ navigation }) => {
@@ -11,14 +12,14 @@ class HomeScreen extends Component {
             },
             headerRight: (
                 <Button
-                    onPress={navigation.getParam('next')}
+                    onPress={() => navigation.getParam('next')}
                     title="G"
                     color="#000"
                 />
             ),
             headerLeft: (
                 <Button
-                    onPress={navigation.getParam('back')}
+                    onPress={() => navigation.getParam('back')}
                     title="<-"
                     color="#000"
                 />
@@ -49,7 +50,6 @@ class HomeScreen extends Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
         const itemId = this.props.navigation.getParam('itemId', 'NO-ID');
         const otherParam = this.props.navigation.getParam('otherParam', 'some default value');
         return (
@@ -57,7 +57,7 @@ class HomeScreen extends Component {
                 <Button
                     title="Go to Jane's profile"
                     onPress={ () =>
-                        navigate('Details', { name: 'Jane' })
+                        NavigationService.navigate(AppStack.SCREEN_NAME[2].key, { name: 'Jane' })
                     }
                 />
                 <Text>itemId: { JSON.stringify(itemId) }</Text>
@@ -71,13 +71,15 @@ class HomeScreen extends Component {
     }
 
     back = () => {
-        const { navigation } = this.props;
-        navigation.goBack();
+        // const { navigation } = this.props;
+        // navigation.goBack();
+        NavigationService.goBack();
     }
 
     next = () => {
-        const { navigation } = this.props;
-        navigation.navigate("Details");
+        // const { navigation } = this.props;
+        // navigation.navigate("Details");
+        NavigationService.navigate(AppStack.SCREEN_NAME[2].key, {});
     }
 
     renderUsers = () => {

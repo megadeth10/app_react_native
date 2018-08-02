@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-native';
-
+import { Button, View } from 'react-native';
+import NavigationService from './NavigationService';
+import AppStack from './AppStack';
 
 class HomeScreen extends Component {
     static navigationOptions = {
@@ -22,18 +23,26 @@ class HomeScreen extends Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
         return (
-            <Button
-                title="Go to Category"
-                onPress={ () =>
-                    navigate('Category', {
-                        itemId: 86,
-                        otherParam: 'anything you want here',
-                        group: ["aaa","bbb"]
-                    })
-                }
-            />
+            <View>
+                <Button
+                    title="Go to Category"
+                    onPress={ () =>
+                        NavigationService.navigate(AppStack.SCREEN_NAME[1].key, {
+                            itemId: 86,
+                            otherParam: 'anything you want here',
+                            group: ["aaa", "bbb"]
+                        })
+                    }
+                />
+                <Button
+                    title="Go to Detail"
+                    onPress={ () =>
+                        NavigationService.navigate(AppStack.SCREEN_NAME[2].key, {
+                        })
+                    }
+                />
+            </View>
         );
     }
 }

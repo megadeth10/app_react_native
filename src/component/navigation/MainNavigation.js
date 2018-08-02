@@ -1,23 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import HomeScreen from './HomeScreen';
-import CategoryScreen from './CategoryScreen';
-import DetailsScreen from './DetailsScreen';
-import { createStackNavigator } from 'react-navigation';
-
-const RootStack = createStackNavigator(
-    {
-        Home: HomeScreen,
-        Category: {
-            screen: CategoryScreen,
-            mode: "card"
-        },
-        Details: DetailsScreen,
-    },
-    {
-        initialRouteName: 'Home',
-    }
-);
+import AppStack from './AppStack';
 
 class MainNavigation extends Component {
 
@@ -26,7 +9,7 @@ class MainNavigation extends Component {
     }
 
     render() {
-        return <RootStack />
+        return (AppStack.getStack());
     }
 }
 export default MainNavigation;

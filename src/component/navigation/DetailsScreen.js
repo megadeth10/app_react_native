@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, View, Text } from 'react-native';
-
+import NavigationService from './NavigationService';
+import AppStack from './AppStack';
 
 class DetailsScreen extends Component {
     static navigationOptions = {
@@ -22,17 +23,23 @@ class DetailsScreen extends Component {
     }
 
     render() {
-        const { popToTop } = this.props.navigation;
         return (
             <View>
                 <Button
                     title="Back to Home"
                     onPress={ () =>
-                        popToTop()
+                        NavigationService.popToTop()
                     }
                 />
 
                 <Text>{ this.props.name }</Text>
+
+                <Button
+                    title="go to Category"
+                    onPress={ () =>
+                        NavigationService.navigate(AppStack.SCREEN_NAME[1].key,{})
+                    }
+                />
             </View>
         );
     }
