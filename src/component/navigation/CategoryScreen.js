@@ -2,30 +2,33 @@ import React, { Component } from 'react';
 import { Button, View, Text } from 'react-native';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
+import { connect } from 'redux-zero/react';
+import actions from '../redux_zero/action';
 
-class HomeScreen extends Component {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            title: 'Category',
-            headerStyle: {
-                backgroundColor: '#fdd002',
-            },
-            headerRight: (
-                <Button
-                    onPress={() => navigation.getParam('next')}
-                    title="G"
-                    color="#000"
-                />
-            ),
-            headerLeft: (
-                <Button
-                    onPress={() => navigation.getParam('back')}
-                    title="<-"
-                    color="#000"
-                />
-            ),
-        };
-    }
+class CategoryScreen extends Component {
+    // static navigationOptions = ({ navigation }) => {
+    //     return {
+    //         title: 'Category',
+    //         headerStyle: {
+    //             backgroundColor: '#fdd002',
+    //         },
+    //         // headerRight: (
+    //         //     <Button
+    //         //         onPress={navigation.getParam('next')}
+    //         //         title="G"
+    //         //         color="#000"
+    //         //     />
+    //         // ),
+    //         // headerLeft: (
+    //         //     <Button
+    //         //         onPress={navigation.getParam('back')}
+    //         //         title="<-"
+    //         //         color="#000"
+    //         //     />
+    //         // ),
+    //     };
+    // }
+
     constructor(props) {
         super(props);
         console.log("constructor");
@@ -95,5 +98,7 @@ class HomeScreen extends Component {
         });
     }
 }
+const mapToProps = ({ userInfo }) => ({ userInfo });
 
-export default HomeScreen;
+
+export default connect(mapToProps, actions)(CategoryScreen);

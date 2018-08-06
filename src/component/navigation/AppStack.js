@@ -11,18 +11,31 @@ function setScreenName() {
     return [
         {
             key: "Home",
-            value: HomeScreen
+            value: {
+                screen: HomeScreen,
+                navigationOptions :{
+                    header : null
+                }
+            }
         },
         {
             key: "Category",
             value: {
                 screen: CategoryScreen,
-                mode: "card"
-            }  
+                mode: "card",
+                navigationOptions :{
+                    header : null
+                }
+            },
         },
         {
             key: "Details",
-            value: DetailsScreen
+            value: {
+                screen: DetailsScreen,
+                navigationOptions :{
+                    header : null
+                }
+            }
         },
     ];
 }

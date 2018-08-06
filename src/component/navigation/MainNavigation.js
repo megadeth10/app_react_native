@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Provider } from 'redux-zero/react';
 import AppStack from './AppStack';
+import store from '../redux_zero/store';
 
-class MainNavigation extends Component {
-
-    componentWillUnmount() {
-        console.log("componentWillUnmount");
-    }
-
-    render() {
-        return (AppStack.getStack());
-    }
+export default function App() {
+    return (
+        <Provider store={ store }>
+            { AppStack.getStack() }
+        </Provider>
+    );
 }
-export default MainNavigation;
