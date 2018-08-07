@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text } from 'react-native';
+import { Button, View, Text, NativeModules } from 'react-native';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
 import { connect } from 'redux-zero/react';
@@ -49,11 +49,20 @@ class DetailsScreen extends Component {
                         setUser({ name: "ccccccc" })
                     }
                 />
+
+                <Button
+                    title="show toast"
+                    onPress={ 
+                        this.showToast
+                    }
+                />
             </View>
         );
     }
 
-
+    showToast = () => {
+        NativeModules.ToastExample.show("으하하하하", NativeModules.ToastExample.SHORT);
+    }
 }
 const mapToProps = ({ userInfo }) => ({ userInfo });
 
