@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, Text } from 'react-native';
+import { Button, View, Text, AppState } from 'react-native';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
 import { connect } from 'redux-zero/react';
@@ -45,11 +45,13 @@ class CategoryScreen extends Component {
 
     componentWillUnmount() {
         console.log("componentWillUnmount");
+        AppState.removeEventListener('change', this._handleAppStateChange);
     }
 
     componentDidMount(){
         this.props.navigation.setParams( {back :  this.back});
         this.props.navigation.setParams( {next :  this.next});
+        AppState.addEventListener('change', this._handleAppStateChange);
     }
 
     render() {
@@ -97,6 +99,13 @@ class CategoryScreen extends Component {
             return (<Text key={ item }>{ item }</Text>);
         });
     }
+
+    _handleAppStateChange = (nextAppState) => {
+        // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+          console.log(nextAppState)
+        // }
+        // this.setState({appState: nextAppState});
+      }
 }
 const mapToProps = ({ userInfo }) => ({ userInfo });
 

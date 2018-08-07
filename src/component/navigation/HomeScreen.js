@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View } from 'react-native';
+import { Button, View, AppState } from 'react-native';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
 import { Container, Header, Left, Body, Right, Title, Text } from 'native-base';
@@ -20,20 +20,23 @@ class HomeScreen extends Component {
         console.log("shouldComponentUpdate");
         return true;
     }
+    componentDidMount(){
+        AppState.addEventListener('change', this._handleAppStateChange);
+    }
 
     componentWillUnmount() {
         console.log("componentWillUnmount");
+        AppState.removeEventListener('change', this._handleAppStateChange);
     }
 
     render() {
+        const {userInfo} = this.props;
         return (
             <Container style={ { backgroundColor: "#ffffff" } }>
                 <Header style={ { backgroundColor: "#fdd002" } }>
-                    <Left />
                     <Body>
-                        <Title style={ { color: "#000000" } }>Home</Title>
+                        <Title style={ { color: "#000000", paddingLeft : 20 } }>Home</Title>
                     </Body>
-                    <Right />
                 </Header>
                 <View>
                     <Button
@@ -53,12 +56,20 @@ class HomeScreen extends Component {
                             })
                         }
                     />
-                    <Text>{this.props.userInfo.name}</Text>
+                    <Text>{userInfo ? userInfo.name : ""}</Text>
                 </View>
             </Container>
 
         );
     }
+
+    _handleAppStateChange = (nextAppState) => {
+        // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+          console.log(nextAppState)
+        // }
+        // this.setState({appState: nextAppState});
+      }
+
 }
 
 const mapToProps = ({userInfo}) => ({userInfo})
