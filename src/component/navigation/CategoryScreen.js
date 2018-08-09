@@ -46,12 +46,36 @@ class CategoryScreen extends Component {
     componentWillUnmount() {
         console.log("componentWillUnmount");
         AppState.removeEventListener('change', this._handleAppStateChange);
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+        if (this.didFocus) {
+            this.didFocus.remove();
+        }
+        if (this.didBlur) {
+            this.didBlur.remove();
+        }
     }
 
-    componentDidMount(){
-        this.props.navigation.setParams( {back :  this.back});
-        this.props.navigation.setParams( {next :  this.next});
+    componentDidMount() {
+        this.props.navigation.setParams({ back: this.back });
+        this.props.navigation.setParams({ next: this.next });
         AppState.addEventListener('change', this._handleAppStateChange);
+        
+
+        //Screen state값 lifecycle과 유사함.
+        this.didFocus = this.props.navigation.addListener('didFocus', payload => {
+            this.timer = setInterval(this.timeSetHandler, 1000);
+            console.debug('disFocus', payload);
+        });
+
+        //Screen state값 lifecycle과 유사함.
+        this.didBlur  = this.props.navigation.addListener('didBlur', payload => {
+            console.debug('didBlur', payload);
+            if (this.timer) {
+                clearInterval(this.timer);
+            }
+        });
     }
 
     render() {
@@ -102,10 +126,14 @@ class CategoryScreen extends Component {
 
     _handleAppStateChange = (nextAppState) => {
         // if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
-          console.log(nextAppState)
+        console.log(nextAppState)
         // }
         // this.setState({appState: nextAppState});
-      }
+    }
+
+    timeSetHandler = () => {
+          console.log("timeSetHandler");
+    }
 }
 const mapToProps = ({ userInfo }) => ({ userInfo });
 

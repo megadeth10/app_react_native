@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './HomeScreen';
 import CategoryScreen from './CategoryScreen';
 import DetailsScreen from './DetailsScreen';
+import PagerScreen from './PagerScreen';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
 
@@ -37,6 +38,15 @@ function setScreenName() {
                 }
             }
         },
+        {
+            key: "Pager",
+            value: {
+                screen: PagerScreen,
+                navigationOptions :{
+                    header : null
+                }
+            }
+        },
     ];
 }
 
@@ -49,6 +59,7 @@ function getStack() {
                 [SCREEN_NAME[0].key]: SCREEN_NAME[0].value,
                 [SCREEN_NAME[1].key]: SCREEN_NAME[1].value,
                 [SCREEN_NAME[2].key]: SCREEN_NAME[2].value,
+                [SCREEN_NAME[3].key]: SCREEN_NAME[3].value,
             },
             {
                 initialRouteName: SCREEN_NAME[0].key,
