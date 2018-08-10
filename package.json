@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "babel-preset-react-native": "^2.1.0",
+    "immutability-helper": "^2.7.1",
     "lodash": "^4.17.10",
     "native-base": "^2.7.2",
     "react": "16.4.1",
