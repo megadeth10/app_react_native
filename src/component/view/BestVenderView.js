@@ -6,6 +6,7 @@ import CategoryData from '../navigation/RestApi/CategoryData';
 import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
+import CusImageView from '../view/CusImageView';
 
 const propTypes = {
 }
@@ -54,17 +55,22 @@ class BestVenderView extends Component {
         }
         const width = DeviceUtil.ratioSize(75, 360);
         const height = DeviceUtil.ratioSize(49, 360);
-
         return (
             <TouchableOpacity onPress={ (e) => this._onPress(e, item.venId) }>
                 <View style={ style.itemView }>
-                    <Image source={ { uri: url.fileNm } } style={ { width, height } } />
+                    <CusImageView source={ { uri: url.fileNm } } style={ { width, height } } />
                     <Text style={ style.rateView }>{ rowData.index + 1 }</Text>
                     <Text>{ item.venNm }</Text>
                 </View>
             </TouchableOpacity>
         );
     }
+
+    onError = (err, ref) => {
+        console.debug(error);
+        console.debug(ref);
+    }
+
     _onPress = (e, venId) => {
         console.debug(venId);
     }
