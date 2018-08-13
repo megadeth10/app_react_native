@@ -62,7 +62,7 @@ class PagerScreen extends Component {
 
         //Screen state값 lifecycle과 유사함.
         this.didFocus = this.props.navigation.addListener('didFocus', payload => {
-            // this.timer = setInterval(this.pagerTimer, INTERVAL_TIME);
+            this.timer = setInterval(this.pagerTimer, INTERVAL_TIME);
         });
 
         //Screen state값 lifecycle과 유사함.
@@ -102,23 +102,17 @@ class PagerScreen extends Component {
                 </ViewPagerAndroid>
                 { this.renderTopPagerData() }
                 { this.renderMainPagerData() }
+                <Text>베스트 상점</Text>
                 <Content>
                     <BestVenderView compid="DD1" />
                 </Content>
+                <Text>베스트 상점</Text>
                 <Content>
                     <BestVenderView compid="DD1" />
                 </Content>
             </Container>
         );
     }
-    /*    <ViewPagerAndroid
-            style={ styles.viewPager }
-            onPageSelected={ this.pageSelected }
-            initialPage={ 0 }>
-            { this.state.item }
-        </ViewPagerAndroid>
-        { this.renderTopPagerData() }
-        { this.renderMainPagerData() }*/
 
     //interval timer callback
     pagerTimer = () => {

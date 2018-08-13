@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, View, Text, AppState, ViewPagerAndroid, StyleSheet, Image, Dimensions, FlatList } from 'react-native';
+import { Button, View, Text, AppState, ViewPagerAndroid, StyleSheet, Image, Dimensions, FlatList, TouchableOpacity } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right } from 'native-base';
 import CategoryData from '../navigation/RestApi/CategoryData';
 import update from 'immutability-helper';
@@ -33,7 +33,7 @@ class BestVenderView extends Component {
     render() {
         return (
             <View style={ style.mainStyle }>
-                <Text>베스트 상점</Text>
+                
                 <FlatList style={ style.scrollStyle }
                     data={ this.state.bestVenderItems }
                     contentContainerStyle={ { flex: 1 } }
@@ -56,12 +56,17 @@ class BestVenderView extends Component {
         const height = DeviceUtil.ratioSize(49, 360);
 
         return (
-            <View style={ style.itemView } >
-                <Image source={ { uri: url.fileNm } } style={ { width, height } } />
-                <Text style={ style.rateView }>{ rowData.index + 1 }</Text>
-                <Text>{ item.venNm }</Text>
-            </View>
+            <TouchableOpacity onPress={ (e) => this._onPress(e, item.venId) }>
+                <View style={ style.itemView }>
+                    <Image source={ { uri: url.fileNm } } style={ { width, height } } />
+                    <Text style={ style.rateView }>{ rowData.index + 1 }</Text>
+                    <Text>{ item.venNm }</Text>
+                </View>
+            </TouchableOpacity>
         );
+    }
+    _onPress = (e, venId) => {
+        console.debug(venId);
     }
 
     getData = (id) => {
