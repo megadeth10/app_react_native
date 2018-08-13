@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, View, Text, AppState, ViewPagerAndroid, StyleSheet, Image, Dimensions } from 'react-native';
+import { Button, View, Text, AppState, ViewPagerAndroid, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right } from 'native-base';
 import NavigationService from './NavigationService';
 import CategoryData from './RestApi/CategoryData';
@@ -118,22 +118,26 @@ class PagerScreen extends Component {
     pagerTimer = () => {
         const { topBannerItems, mainBannerItems } = this.state;
         try {
-            let nextIndex = this.mainBannerIndex + 1;
-            if (nextIndex >= mainBannerItems.length) {
-                nextIndex = 0;
+            if (mainBannerItems.length > 0) {
+                let nextIndex = this.mainBannerIndex + 1;
+                if (nextIndex >= mainBannerItems.length) {
+                    nextIndex = 0;
+                }
+                this.mainBannerIndex = nextIndex;
+                this.mainBannerComp.setPage(this.mainBannerIndex);
             }
-            this.mainBannerIndex = nextIndex;
-            this.mainBannerComp.setPage(this.mainBannerIndex);
         } catch (err) {
             console.error(err);
         }
         try {
-            let nextIndex = this.topBannerIndex + 1;
-            if (nextIndex >= topBannerItems.length) {
-                nextIndex = 0;
+            if (topBannerItems.length > 0) {
+                let nextIndex = this.topBannerIndex + 1;
+                if (nextIndex >= topBannerItems.length) {
+                    nextIndex = 0;
+                }
+                this.topBannerIndex = nextIndex;
+                this.topBannerComp.setPage(this.topBannerIndex);
             }
-            this.topBannerIndex = nextIndex;
-            this.topBannerComp.setPage(this.topBannerIndex);
         } catch (err) {
             console.error(err);
         }
@@ -151,8 +155,10 @@ class PagerScreen extends Component {
                 initialPage={ this.topBannerIndex }>
                 { topBannerItems.map((item, index) =>
                     (
-                        <View style={ styles.pageStyle } key={ index } >
-                            <Image source={ { uri: item.normal } } style={ { height: "100%" } } />
+                        <View style={ styles.pageStyle } key={ item.normal } >
+                            <TouchableOpacity onPress={ (e) => this._onPress(e, item.action) } >
+                                <Image source={ { uri: item.normal } } style={ { height: "100%" } } />
+                            </TouchableOpacity>
                         </View>
                     )
                 ) }
@@ -160,6 +166,10 @@ class PagerScreen extends Component {
         } else {
             return null;
         }
+    }
+
+    _onPress = (e, item) => {
+        console.debug(item);
     }
 
     onPageTop = (e) => {
@@ -178,8 +188,10 @@ class PagerScreen extends Component {
                 initialPage={ this.mainBannerIndex }>
                 { mainBannerItems.map((item, index) =>
                     (
-                        <View style={ styles.pageStyle } key={ index } >
-                            <Image source={ { uri: item.normal } } style={ { height: "100%" } } />
+                        <View style={ styles.pageStyle } key={ item.normal } >
+                            <TouchableOpacity onPress={ (e) => this._onPress(e, item.action) } >
+                                <Image source={ { uri: item.normal } } style={ { height: "100%" } } />
+                            </TouchableOpacity>
                         </View>
                     )
                 ) }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
+import _ from 'lodash';
 
 const propTypes = {
 }
@@ -16,6 +17,7 @@ class CusImageView extends Component {
         }
     }
     render() {
+        const { uri } = this.state;
         return (
             <Image { ...this.props } source={ this.state.uri } onError={ this.onError } />
         );
@@ -28,6 +30,11 @@ class CusImageView extends Component {
     }
 };
 
+const style = StyleSheet.create({
+    imageStyle: {
+        margin: 1,
+    }
+});
 CusImageView.defaultProps = defaultProps;
 CusImageView.propTypes = propTypes;
 

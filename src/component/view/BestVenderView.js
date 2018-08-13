@@ -49,16 +49,16 @@ class BestVenderView extends Component {
         let url = "";
         const { imageList } = item;
 
-        url = _.get(imageList, "[8]");
+        url = _.get(imageList, "[8].fileNm");
         if (_.isEmpty(url)) {
-            url = _.get(imageList, "[3]");
+            url = _.get(imageList, "[3].fileNm");
         }
         const width = DeviceUtil.ratioSize(75, 360);
-        const height = DeviceUtil.ratioSize(49, 360);
+        const height = DeviceUtil.ratioSize(47, 360);
         return (
             <TouchableOpacity onPress={ (e) => this._onPress(e, item.venId) }>
                 <View style={ style.itemView }>
-                    <CusImageView source={ { uri: url.fileNm } } style={ { width, height } } />
+                    <CusImageView source={ { uri: url } } style={ { width, height } } />
                     <Text style={ style.rateView }>{ rowData.index + 1 }</Text>
                     <Text>{ item.venNm }</Text>
                 </View>
@@ -111,7 +111,7 @@ const style = StyleSheet.create({
         height: DeviceUtil.ratioSize(49, 360),
         backgroundColor: '#6495ED',
         borderColor: "black",
-        borderWidth: 1
+        borderWidth: 1,
     },
     rateView: {
         width: 20,
