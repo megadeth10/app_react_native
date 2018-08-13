@@ -1,7 +1,7 @@
 export default class CategoryData {
     static getFoodHomeData() {
         //http://14.63.172.164:80
-        return fetch('https://www.ddingdong.net:443/mobile/users/getFoodsHome.do', {
+        return fetch('http://14.63.172.164:80/mobile/users/getFoodsHome.do', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -23,7 +23,7 @@ export default class CategoryData {
     }
 
     static getMainBestVender({ compId }) {
-        return fetch('https://www.ddingdong.net:443/mobile/users/getMainBestVendorList.do', {
+        return fetch('http://14.63.172.164:80/mobile/users/getMainBestVendorList.do', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
