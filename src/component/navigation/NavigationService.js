@@ -2,7 +2,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 
 let _navigator;
 
-//최상위 navigater 설정
+//최상위 navigator 설정
 function setTopLevelNavigator(navigatorRef) {
     _navigator = navigatorRef;
 }

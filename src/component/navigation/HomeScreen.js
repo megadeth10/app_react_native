@@ -87,9 +87,9 @@ class HomeScreen extends Component {
                 PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, rationale
             ).then(result => {
                 if (result === PermissionsAndroid.RESULTS.GRANTED) {
-                    console.warn("You can use the READ_EXTERNAL_STORAGE");
+                    console.debug("You can use the READ_EXTERNAL_STORAGE");
                 } else {
-                    console.warn(result);
+                    console.debug(result);
                 }
             });
 
