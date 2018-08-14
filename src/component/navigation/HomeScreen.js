@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, ViewPagerAndroid } from 'react-native';
+import _ from 'lodash';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
 import { Container, Header, Left, Body, Right, Title, Text, Content } from 'native-base';
@@ -83,10 +84,16 @@ class HomeScreen extends Component {
         };
 
         try {
-            PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE, rationale
+            PermissionsAndroid.requestMultiple(
+                [PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]
+                , rationale
             ).then(result => {
-                if (result === PermissionsAndroid.RESULTS.GRANTED) {
+                const read_s = _.get(result, PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+                const write_s = _.get(result, PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+
+                if ((read_s === PermissionsAndroid.RESULTS.GRANTED) &&
+                    (write_s === PermissionsAndroid.RESULTS.GRANTED) ) {
                     console.debug("You can use the READ_EXTERNAL_STORAGE");
                 } else {
                     console.debug(result);

@@ -7,6 +7,8 @@ import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
 import CusImageView from '../view/CusImageView';
+import NavigationService from '../navigation/NavigationService';
+import AppStack from '../navigation/AppStack';
 
 const propTypes = {
 }
@@ -72,7 +74,7 @@ class BestVenderView extends Component {
     }
 
     _onPress = (e, venId) => {
-        console.debug(venId);
+        NavigationService.navigate(AppStack.SCREEN_NAME[4].key, { compId: this.props.compid, venId })
     }
 
     getData = (id) => {
