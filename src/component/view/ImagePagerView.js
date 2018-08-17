@@ -62,7 +62,7 @@ class ImagePagerView extends Component {
             return (
                 <View key={ item.url } >
                     <TouchableOpacity onPress={ this._onPress } >
-                        <CusImageView source={ { uri: item.url } } style={ { height: "100%" } } />
+                        <CusImageView item={ { uri: item.url } } style={ { height: "100%" } } />
                     </TouchableOpacity>
                 </View>
             )

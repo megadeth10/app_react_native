@@ -13,13 +13,19 @@ class CusImageView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            uri: props.source,
+            uri: props.item,
         }
     }
     render() {
         const { uri } = this.state;
+
+        if (_.isEmpty(uri.uri)) {
+            return (
+                <Image { ...this.props } source={ require("../../img/order_bike.png") } />
+            );
+        }
         return (
-            <Image { ...this.props } source={ this.state.uri } onError={ this.onError } />
+            <Image { ...this.props } source={ uri } onError={ this.onError } />
         );
     }
 

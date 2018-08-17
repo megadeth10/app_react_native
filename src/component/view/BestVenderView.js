@@ -60,7 +60,7 @@ class BestVenderView extends Component {
         return (
             <TouchableOpacity onPress={ (e) => this._onPress(e, item.venId) }>
                 <View style={ style.itemView }>
-                    <CusImageView source={ { uri: url } } style={ { width, height } } />
+                    <CusImageView item={ { uri: url } } style={ { width, height } } />
                     <Text style={ style.rateView }>{ rowData.index + 1 }</Text>
                     <Text>{ item.venNm }</Text>
                 </View>

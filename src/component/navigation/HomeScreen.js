@@ -70,6 +70,13 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="Go to venderList"
+                        onPress={ () =>
+                            NavigationService.navigate(AppStack.SCREEN_NAME[5].key, {
+                            })
+                        }
+                    />
                 </Content>
             </Container>
 

@@ -4,6 +4,7 @@ import CategoryScreen from './CategoryScreen';
 import DetailsScreen from './DetailsScreen';
 import PagerScreen from './PagerScreen';
 import StoreDetail from './StoreDetail';
+import VenderListScreen from './VenderListScreen';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
 
@@ -57,6 +58,15 @@ function setScreenName() {
                 }
             }
         },
+        {
+            key: "VenderListScreen",
+            value: {
+                screen: VenderListScreen,
+                navigationOptions :{
+                    header : null
+                }
+            }
+        },
     ];
 }
 
@@ -71,6 +81,7 @@ function getStack() {
                 [SCREEN_NAME[2].key]: SCREEN_NAME[2].value,
                 [SCREEN_NAME[3].key]: SCREEN_NAME[3].value,
                 [SCREEN_NAME[4].key]: SCREEN_NAME[4].value,
+                [SCREEN_NAME[5].key]: SCREEN_NAME[5].value,
             },
             {
                 initialRouteName: SCREEN_NAME[0].key,
