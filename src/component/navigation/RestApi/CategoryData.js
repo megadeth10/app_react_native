@@ -81,7 +81,7 @@ export default class CategoryData {
                 lat:"37.5160997",
                 grpId:"GG02",
                 pageNum,
-                pageCount:20,
+                pageCount:100,
                 orderBy:"RT",
                 compId:"DD1"
             })

@@ -21,16 +21,17 @@ class VenderListScreen extends Component {
 
         this.state = {
             items: [],
-            pageNum: -1
+            pageNum: 0,
+            endData: false
         }
         this.isRequest = false;
     }
 
-    componentWillMount() {
-        const { items } = this.state;
+    componentDidMount() {
+        const { items, pageNum } = this.state;
 
         if (items.length === 0) {
-            this.getData();
+            this.getData(pageNum);
         }
     }
 
@@ -48,37 +49,40 @@ class VenderListScreen extends Component {
                             <Title style={ { color: "#000000" } }>상점 목록</Title>
                         </Body>
                     </Header>
-                    <VenderList ref="list" data={ this.state.items } getMore={ this.getData }
-                        refresh={ this.refreshing } />
+                    <VenderList {...this.state} ref="list" getMore={ this.getData }
+                        refresh={ this.refreshing }  />
                 </Container>
             </View>
         );
     }
 
-    getData = () => {
+    getData = (pageNum) => {
         if (this.isRequest) {
             return;
         }
-
         this.isRequest = true;
-        let { items, pageNum } = this.state;
-        pageNum += 1;
         CategoryData.getCategoryVendors({ pageNum })
             .then(result => {
-
                 const { list } = result;
-
+                const { items, endData } = this.state;
                 if (list && list.length > 0) {
-
                     this.setState({
                         items: update(items, {
                             $push: list
                         }),
                         pageNum: update(pageNum, {
-                            $set: pageNum + 1
+                            $set: pageNum
+                        }),
+                        endData: update(endData, {
+                            $set: false
                         }),
                     });
-
+                } else {
+                    this.setState({
+                        endData: update(endData, {
+                            $set: true
+                        }),
+                    });
                 }
                 this.isRequest = false;
             })
@@ -88,15 +92,12 @@ class VenderListScreen extends Component {
     }
 
     refreshing = () => {
-        const { pageNum, items } = this.state;
+        const { items } = this.state;
         this.setState({
             items: update(items, {
                 $set: []
             }),
-            pageNum: update(pageNum, {
-                $set: -1
-            }),
-        }, this.getData());
+        }, this.getData(0));
     }
 
     onBackPress = () => {
