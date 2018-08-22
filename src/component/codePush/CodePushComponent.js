@@ -65,12 +65,12 @@ export default class extends Component {
                                 progress: false
                             });
                             break;
-                        case codePush.SyncStatus.UPDATE_INSTALLED:
-                            this.setState({
-                                syncMessage: "Update installed and will be run when the app next resumes.",
-                                progress: false
-                            });
-                            break;
+                        // case codePush.SyncStatus.UPDATE_INSTALLED:
+                        //     this.setState({
+                        //         syncMessage: "Update installed and will be run when the app next resumes.",
+                        //         progress: false
+                        //     });
+                        //     break;
                         case codePush.SyncStatus.UNKNOWN_ERROR:
                             this.setState({
                                 syncMessage: "An unknown error occurred.",
@@ -119,7 +119,6 @@ export default class extends Component {
             //     <Text style={ Style.percent }>{ this.state.progress && parseInt((this.state.progress.receivedBytes / this.state.progress.totalBytes) * 100) }%</Text>
             // </View>
         );
-        console.log(this.state.progress.receivedBytes);
         return (
             // <View style={ Style.Wrapper }>
             <View>
