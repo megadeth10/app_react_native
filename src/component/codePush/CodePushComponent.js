@@ -16,6 +16,14 @@ export default class extends Component {
             syncMessage: null,
             progress: null
         }
+
+        // this.state = {
+        //     syncMessage: "Checking for update.",
+        //     progress: {
+        //         receivedBytes: 100,
+        //         totalBytes: 10000
+        //     }
+        // }
     }
     codePushSync() {
         try {
@@ -65,12 +73,11 @@ export default class extends Component {
                                 progress: false
                             });
                             break;
-                        // case codePush.SyncStatus.UPDATE_INSTALLED:
-                        //     this.setState({
-                        //         syncMessage: "Update installed and will be run when the app next resumes.",
-                        //         progress: false
-                        //     });
-                        //     break;
+                        case codePush.SyncStatus.UPDATE_INSTALLED:
+                            this.setState({
+                                syncMessage: "Update installed and will be run when the app next resumes.",
+                            });
+                            break;
                         case codePush.SyncStatus.UNKNOWN_ERROR:
                             this.setState({
                                 syncMessage: "An unknown error occurred.",
@@ -104,24 +111,23 @@ export default class extends Component {
         if (this.state.syncMessage) {
             syncView = (
                 <View>
-                    <Text >{ this.state.syncMessage }</Text>
+                    <Text style={ { fontSize: 15, textAlign: "center" } }>{ this.state.syncMessage }</Text>
                 </View>
-//                <View style={ Style.TitleWrap }>
-//                    <Text style={ Style.Title }>{ this.state.syncMessage }</Text>
-//                </View>
             );
         }
         progressView = (
             <View >
-                <Text >{ this.state.progress && parseInt((this.state.progress.receivedBytes / this.state.progress.totalBytes) * 100) }%</Text>
+                <Text style={ { fontSize: 10, textAlign: "center" } }>{ this.state.progress && parseInt((this.state.progress.receivedBytes / this.state.progress.totalBytes) * 100) }%</Text>
             </View>
-            // <View style={ Style.percentWrap }>
-            //     <Text style={ Style.percent }>{ this.state.progress && parseInt((this.state.progress.receivedBytes / this.state.progress.totalBytes) * 100) }%</Text>
-            // </View>
         );
         return (
-            // <View style={ Style.Wrapper }>
-            <View>
+            <View style={ {
+                display: "flex", position: "absolute", flex: 1,
+                justifyContent: "center",
+                width: "100%", height: "100%",
+                backgroundColor: "white",
+            } }>
+                <Text style={ { fontSize: 20, textAlign: "center" } }>업데이트 중...</Text>
                 { progressView }
                 { syncView }
             </View>
