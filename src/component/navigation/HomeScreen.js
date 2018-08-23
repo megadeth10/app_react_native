@@ -84,6 +84,13 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="input screen"
+                        onPress={ () =>
+                            NavigationService.navigate(AppStack.SCREEN_NAME[7].key, {
+                            })
+                        }
+                    />
                 </Content>
             </Container>
 
