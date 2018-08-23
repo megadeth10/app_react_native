@@ -97,13 +97,20 @@ class VenderList extends Component {
         }
 
         return (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={ () => this.onPress(rowData) }>
                 <View style={ style.itemView }>
                     <CusImageView item={ { uri: url } } style={ this.imageStyle } />
                     <Text>{ item.venNm }</Text>
                 </View>
             </TouchableOpacity>
         )
+    }
+
+    onPress = (item) => {
+        const { itemClick } = this.props;
+        if (itemClick) {
+            itemClick(item);
+        }
     }
 
     renderSeparator = () => {
@@ -136,7 +143,7 @@ class VenderList extends Component {
     }
 
     onTop = () => {
-        this.refs.flatList.scrollToIndex({index:0});
+        this.refs.flatList.scrollToIndex({ index: 0 });
     }
 
     onScroll = (e) => {

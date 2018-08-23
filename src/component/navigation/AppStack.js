@@ -5,6 +5,7 @@ import DetailsScreen from './DetailsScreen';
 import PagerScreen from './PagerScreen';
 import StoreDetail from './StoreDetail';
 import VenderListScreen from './VenderListScreen';
+import AddressinMapScreen from './AddressinMapScreen';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
 
@@ -67,6 +68,15 @@ function setScreenName() {
                 }
             }
         },
+        {
+            key: "AddressinMapScreen",
+            value: {
+                screen: AddressinMapScreen,
+                navigationOptions :{
+                    header : null
+                }
+            }
+        },
     ];
 }
 
@@ -82,6 +92,7 @@ function getStack() {
                 [SCREEN_NAME[3].key]: SCREEN_NAME[3].value,
                 [SCREEN_NAME[4].key]: SCREEN_NAME[4].value,
                 [SCREEN_NAME[5].key]: SCREEN_NAME[5].value,
+                [SCREEN_NAME[6].key]: SCREEN_NAME[6].value,
             },
             {
                 initialRouteName: SCREEN_NAME[0].key,

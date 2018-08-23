@@ -34,7 +34,6 @@ class VenderMapView extends Component {
                 bottom: 0,
                 left: 0,
                 backgroundColor: 'red',
-                opacity: 0.3,
                 width, height
             } }>
                 <MapView

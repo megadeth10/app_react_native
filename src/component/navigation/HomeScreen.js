@@ -77,6 +77,13 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="find my position"
+                        onPress={ () =>
+                            NavigationService.navigate(AppStack.SCREEN_NAME[6].key, {
+                            })
+                        }
+                    />
                 </Content>
             </Container>
 
@@ -93,14 +100,17 @@ class HomeScreen extends Component {
         try {
             PermissionsAndroid.requestMultiple(
                 [PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE]
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION]
                 , rationale
             ).then(result => {
                 const read_s = _.get(result, PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
                 const write_s = _.get(result, PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+                const find_l = _.get(result, PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
 
                 if ((read_s === PermissionsAndroid.RESULTS.GRANTED) &&
-                    (write_s === PermissionsAndroid.RESULTS.GRANTED) ) {
+                    (write_s === PermissionsAndroid.RESULTS.GRANTED) &&
+                    (find_l === PermissionsAndroid.RESULTS.GRANTED)) {
                     console.debug("You can use the READ_EXTERNAL_STORAGE");
                 } else {
                     console.debug(result);

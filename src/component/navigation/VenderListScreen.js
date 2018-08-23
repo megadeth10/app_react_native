@@ -8,6 +8,7 @@ import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
 import NavigationService from '../navigation/NavigationService';
 import VenderList from '../view/VenderList';
+import AppStack from '../navigation/AppStack';
 
 const propTypes = {
 }
@@ -49,11 +50,19 @@ class VenderListScreen extends Component {
                             <Title style={ { color: "#000000" } }>상점 목록</Title>
                         </Body>
                     </Header>
-                    <VenderList {...this.state} ref="list" getMore={ this.getData }
-                        refresh={ this.refreshing }  />
+                    <VenderList { ...this.state } ref="list" getMore={ this.getData }
+                        refresh={ this.refreshing } itemClick={ this.onItemClick } />
                 </Container>
             </View>
         );
+    }
+
+    onItemClick = (item) => {
+        console.debug(item);
+        const { venId } = item.item;
+        if (venId) {
+            NavigationService.navigate(AppStack.SCREEN_NAME[4].key, { compId: "DD1", venId });
+        }
     }
 
     getData = (pageNum) => {
