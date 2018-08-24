@@ -7,6 +7,7 @@ import StoreDetail from './StoreDetail';
 import VenderListScreen from './VenderListScreen';
 import AddressinMapScreen from './AddressinMapScreen';
 import InputScreen from './InputScreen';
+import WebViewScreen from './WebViewScreen';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
 
@@ -87,6 +88,15 @@ function setScreenName() {
                 }
             }
         },
+        {
+            key: "WebViewScreen",
+            value: {
+                screen: WebViewScreen,
+                navigationOptions :{
+                    header : null
+                }
+            }
+        },
     ];
 }
 
@@ -104,6 +114,7 @@ function getStack() {
                 [SCREEN_NAME[5].key]: SCREEN_NAME[5].value,
                 [SCREEN_NAME[6].key]: SCREEN_NAME[6].value,
                 [SCREEN_NAME[7].key]: SCREEN_NAME[7].value,
+                [SCREEN_NAME[8].key]: SCREEN_NAME[8].value,
             },
             {
                 initialRouteName: SCREEN_NAME[0].key,

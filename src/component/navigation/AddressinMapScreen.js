@@ -7,6 +7,7 @@ import NavigationService from './NavigationService';
 import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
+import CategoryData from './RestApi/CategoryData';
 
 const propTypes = {
 }
@@ -20,6 +21,7 @@ class AddressinMapScreen extends Component {
 
         this.state = {
             isMapReady: false,
+            address: undefined
         }
 
         const { width, height } = Dimensions.get('window');
@@ -62,15 +64,14 @@ class AddressinMapScreen extends Component {
                         } }
                         onRegionChangeComplete={ this.onRegionChangeComplete }
                         onLayout={ this.onMapLayout }
-                        zoomControlEnabled={ true } >
-                        {/* <MapView.Marker
-                            coordinate={ this.state.region }
-                        /> */}
-                    </MapView>
+                        zoomControlEnabled={ true } />
                     <Icon style={ {
                         position: "absolute", left: "50%", top: "50%", marginTop: -28, marginLeft: -9
                     } } name="arrow-back" />
                 </View>
+                <Text style={ { width: "100%", justifyContent: "center" } }>
+                    { this.state.address ? this.state.address : "" }
+                </Text>
                 <Button style={ { width: "100%", justifyContent: "center" } }
                     onPress={ this.findMyLocation }>
                     <Text>find my location</Text>
@@ -97,9 +98,44 @@ class AddressinMapScreen extends Component {
         }
     }
 
+    getAddress = (reg) => {
+        const { latitude, longitude } = reg;
+        CategoryData.getDaumCoor2Address({ lon: longitude, lat: latitude })
+            .then(result => {
+
+                const documents = _.get(result, "documents");
+                if (documents && (documents.length > 0)) {
+                    const address_name = _.get(documents, "[0].address.address_name");
+                    console.debug(address_name);
+
+                    const { address, region } = this.state;
+                    
+                    address_name && this.setState({
+                        address: update(address, {
+                            $set: address_name
+                        }),
+                        region: update(region, {
+                            $set: reg
+                        })
+                    });
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                this.setState({
+                    address: update(address, {
+                        $set: ""
+                    }),
+                    region: update(region, {
+                        $set: reg
+                    })
+                });
+            });
+    }
+
     onRegionChangeComplete = (region) => {
-        console.debug(region);
-        this.setState({ region });
+        // console.debug(region);
+        this.getAddress(region);
     }
 
     //map layout 이전에 Marker를 설정하면 오류가 발생한다. 그래서 layout 이후 설정 한다.

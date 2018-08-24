@@ -8,6 +8,7 @@ import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
 import BestVenderView from '../view/BestVenderView';
+import AppStack from './AppStack';
 
 const propTypes = {
 }
@@ -170,6 +171,14 @@ class PagerScreen extends Component {
 
     _onPress = (e, item) => {
         console.debug(item);
+        const { type, data } = item;
+        if ((type === "topbannerurl") && (data.length > 0)) {
+            const url = data[0];
+            
+            NavigationService.navigate(AppStack.SCREEN_NAME[8].key, {
+                url
+            });
+        }
     }
 
     onPageTop = (e) => {

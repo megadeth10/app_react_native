@@ -67,7 +67,7 @@ export default class CategoryData {
         })
     }
 
-    static getCategoryVendors({pageNum}){
+    static getCategoryVendors({ pageNum }) {
         return fetch('http://14.63.172.164:80/mobile/users/selectVendorListV2.do', {
             method: 'POST',
             headers: {
@@ -77,14 +77,30 @@ export default class CategoryData {
             body: JSON.stringify({
                 deviceTp: "Android",
                 versionInfo: "Android_1.1.1",
-                lon:"127.0202686",
-                lat:"37.5160997",
-                grpId:"GG02",
+                lon: "127.0202686",
+                lat: "37.5160997",
+                grpId: "GG02",
                 pageNum,
-                pageCount:100,
-                orderBy:"RT",
-                compId:"DD1"
+                pageCount: 100,
+                orderBy: "RT",
+                compId: "DD1"
             })
+        }).then((result) => {
+            const { status } = result;
+            if (status === 200) {
+                return result.json();
+            }
+
+            return undefined;
+        })
+    }
+
+    static getDaumCoor2Address({ lon, lat }) {
+        return fetch(`https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}&input_coord=WGS84`, {
+            method: "GET",
+            headers: {
+                Authorization : "KakaoAK 2c02f13b4370237794e7dee2a7eacdf6"
+            }
         }).then((result) => {
             const { status } = result;
             if (status === 200) {

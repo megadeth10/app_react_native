@@ -91,6 +91,13 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="결제 화면"
+                        onPress={ () =>
+                            NavigationService.navigate(AppStack.SCREEN_NAME[8].key, {
+                            })
+                        }
+                    />
                 </Content>
             </Container>
 
