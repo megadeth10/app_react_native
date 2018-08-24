@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ScrollView, ViewPagerAndroid, StyleSheet, Dimensions, Image, TouchableOpacity, TextInput, Keyboard } from 'react-native';
+import { View, Text, ScrollView, ViewPagerAndroid, StyleSheet, Dimensions, Image, TouchableOpacity, TextInput, Keyboard, AsyncStorage } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right, Icon, Button } from 'native-base';
 import NavigationService from './NavigationService';
 import update from 'immutability-helper';
@@ -13,16 +13,20 @@ const propTypes = {
 const defaultProps = {
 }
 
+const STORE_KEY = "INPUT_DATA";
 class InputScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            inputText: ""
+            inputText: "",
+            mobile: ""
         }
 
         this.inputObject = {
             input: ""
         }
+
+        this._retrieveData();
     }
 
     componentDidMount() {
@@ -31,6 +35,8 @@ class InputScreen extends Component {
     }
 
     componentWillUnmount() {
+        this._storeData();
+
         this.keyboardDidShowListener.remove();
         this.keyboardDidHideListener.remove();
     }
@@ -65,6 +71,29 @@ class InputScreen extends Component {
         );
     }
 
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem(STORE_KEY);
+            if (value !== null) {
+                this.setState({
+                    inputText: update(this.state.inputText, {
+                        $set: value
+                    })
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    _storeData = async () => {
+        try {
+            await AsyncStorage.setItem(STORE_KEY, this.state.inputText);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     _keyboardDidShow = () => {
         this.isShowKeyboard = true;
     }
@@ -74,6 +103,9 @@ class InputScreen extends Component {
     }
 
     onChangeText = (text) => {
+        // this.setState({
+        //     mobile: text.replace(/[^0-9]/g, ''),
+        // });
         this.inputObject.input = text;
     }
 

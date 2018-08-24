@@ -60,7 +60,7 @@ class WebViewScreen extends Component {
                             onError={ this.onError } onLoadEnd={ this.onLoadEnd }
                             injectedJavaScript={ this.injectScript }
                             javaScriptEnabled={ true }
-                            onMessage={ this.onMessage }>
+                            onNavigationStateChange={ this.onNavigationStateChange }>
                         </WebView>
                     }
                 </View>
@@ -83,6 +83,11 @@ class WebViewScreen extends Component {
 
     onLoadEnd = (event) => {
         console.debug(event);
+    }
+
+    //url change listener
+    onNavigationStateChange = (event) => {
+        console.debug(event.url);
     }
 
     onBackPress = () => {
