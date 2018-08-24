@@ -36,7 +36,7 @@ class ScrollTopView extends Component {
             if (layoutPosition === "left") {
                 left = WIDTH;
             } else if (layoutPosition === "right") {
-                left = width - (WIDTH * 2);
+                left = this.width - (WIDTH * 2);
             }
         }
 
