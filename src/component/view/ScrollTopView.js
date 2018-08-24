@@ -32,7 +32,7 @@ class ScrollTopView extends Component {
         const { layoutPosition } = this.props;
         let left = (this.width - WIDTH) / 2;
 
-        if (typeof layoutPositionn === "string") {
+        if (typeof layoutPosition === "string") {
             if (layoutPosition === "left") {
                 left = WIDTH;
             } else if (layoutPosition === "right") {
