@@ -99,7 +99,7 @@ export default class CategoryData {
         return fetch(`https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lon}&y=${lat}&input_coord=WGS84`, {
             method: "GET",
             headers: {
-                Authorization : "KakaoAK 2c02f13b4370237794e7dee2a7eacdf6"
+                Authorization : "KakaoAK 43f173fef47c89d0da4aec8382fc1b1e"
             }
         }).then((result) => {
             const { status } = result;
