@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, ViewPagerAndroid } from 'react-native';
+import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, ViewPagerAndroid, NativeModules } from 'react-native';
 import _ from 'lodash';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
@@ -22,6 +22,7 @@ class HomeScreen extends Component {
         return true;
     }
     componentDidMount() {
+        NativeModules.RNFirebaseAnalytics.setCurrentScreen("HomeScreen", null);
         AppState.addEventListener('change', this._handleAppStateChange);
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
         if ((Platform.OS === "android") && Platform.Version >= 23) {
