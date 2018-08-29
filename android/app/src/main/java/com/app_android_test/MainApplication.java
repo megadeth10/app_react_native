@@ -6,6 +6,8 @@ import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
 import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactNativeHost;
@@ -38,7 +40,9 @@ public class MainApplication extends Application implements ReactApplication {
                     new MapsPackage(),
                     new CustomToastPackage(),
                     new RNFirebasePackage(),
-                    new RNFirebaseAnalyticsPackage()
+                    new RNFirebaseAnalyticsPackage(), 
+                    new RNFirebaseMessagingPackage(),
+                    new RNFirebaseNotificationsPackage()
             );
         }
 

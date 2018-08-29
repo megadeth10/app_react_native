@@ -7,6 +7,10 @@ import { Container, Header, Left, Body, Right, Title, Text, Content } from 'nati
 import { connect } from 'redux-zero/react';
 import action from '../redux_zero/action';
 
+//fcm
+import { RemoteMessage } from 'react-native-firebase';
+import firebase from 'react-native-firebase';
+
 class HomeScreen extends Component {
     // static navigationOptions = {
     //     title: 'Welcome',
@@ -28,12 +32,88 @@ class HomeScreen extends Component {
         if ((Platform.OS === "android") && Platform.Version >= 23) {
             this.requestCameraPermission();
         }
+
+        //fcm
+        this.messageListener = firebase.messaging().onMessage((message) => {
+            // Process your message as required
+            console.log(message);
+
+            const notification = new firebase.notifications.Notification();
+            notification.setNotificationId("1");
+            notification.setTitle("foreground 메시지");
+            notification.setBody("되나요??");
+            notification.android.setChannelId("리액트 테스트");
+
+            firebase.notifications().displayNotification(notification);
+        });
+        this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
+            // Process your token as required
+            console.debug(fcmToken);
+        });
+        //fcm
+
+        //notification
+        this.notificationDisplayedListener = firebase.notifications().onNotificationDisplayed((notification) => {
+            // Process your notification as required
+            // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
+
+            console.log(notification);
+        });
+        this.notificationListener = firebase.notifications().onNotification((notification) => {
+            // Process your notification as required
+            let notify = notification.android;
+
+            if (Platform.OS === 'android') {
+                notify.setSmallIcon("ic_launcher");
+                notify.setAutoCancel(true);
+                notify.setBigPicture(
+                    "ic_launcher",
+                    "ic_launcher",
+                    notification.body,
+                    "알림"
+                );
+
+                if (Platform.Version >= 26) {//set channel
+                    notify.setChannelId("리액트 테스트");
+                }
+
+            }
+
+            console.log(notification);
+            firebase.notifications().displayNotification(notification);
+        });
+        this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
+            // Get the action triggered by the notification being opened
+            const action = notificationOpen.action;
+            // Get information about the notification that was opened
+            const notification = notificationOpen.notification;
+
+
+            console.log(notification);
+        });
+
+        if ((Platform.OS === 'android') && (Platform.Version >= 26)) {//set channel
+            const channel = new firebase.notifications.Android.Channel('리액트 테스트', '리액트 테스트', firebase.notifications.Android.Importance.High).setDescription('My apps test channel');
+            firebase.notifications().android.createChannel(channel);
+        }
+        //notification
     }
 
     componentWillUnmount() {
         console.log("componentWillUnmount");
         AppState.removeEventListener('change', this._handleAppStateChange);
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+
+        //fcm
+        this.messageListener();
+        this.onTokenRefreshListener();
+        //fcm
+
+        //notification
+        this.notificationDisplayedListener();
+        this.notificationListener();
+        this.notificationOpenedListener();
+        //notification
     }
 
     render() {
@@ -99,6 +179,19 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="send notify"
+                        onPress={ () => {
+                            const notification = new firebase.notifications.Notification();
+                            notification.setNotificationId("1");
+                            notification.setTitle("TEST");
+                            notification.setBody("되나요??");
+                            notification.android.setChannelId("리액트 테스트");
+
+                            firebase.notifications().displayNotification(notification);
+                        }
+                        }
+                    />
                 </Content>
             </Container>
 
@@ -130,7 +223,34 @@ class HomeScreen extends Component {
                 } else {
                     console.debug(result);
                 }
+
             });
+
+            //fcm
+            firebase.messaging().hasPermission()
+                .then(enabled => {
+                    if (enabled) {
+                        console.debug("fcm has Permission");
+                    } else {
+                        console.debug("fcm has not Permission");
+                    }
+                });
+
+            firebase.messaging().requestPermission()
+                .then(() => {
+                    console.debug("fcm guarantee");
+                    firebase.messaging().getToken()
+                        .then(fcmToken => {
+                            fcmToken && console.debug(fcmToken);
+                        })
+                        .catch(error => {
+                            console.debug(error);
+                        });
+                })
+                .catch(error => {
+                    console.debug("fcm not guarantee");
+                });
+            //fcm
 
         } catch (err) {
             console.warn(err)
