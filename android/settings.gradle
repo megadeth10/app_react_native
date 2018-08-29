@@ -1,5 +1,5 @@
 rootProject.name = 'app_android_test'
-include ':app'
+include ':app', ':fingerpush_3.1.1'
 
 //code push
 include ':react-native-code-push'

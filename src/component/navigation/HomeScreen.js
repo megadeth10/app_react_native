@@ -25,8 +25,12 @@ class HomeScreen extends Component {
         console.log("shouldComponentUpdate");
         return true;
     }
+    componentWillMount() {
+        NativeModules.FingerPushController.setDevice();
+    }
     componentDidMount() {
         NativeModules.RNFirebaseAnalytics.setCurrentScreen("HomeScreen", null);
+        NativeModules.FingerPushController.setIdentity("dondeath");
         AppState.addEventListener('change', this._handleAppStateChange);
         BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
         if ((Platform.OS === "android") && Platform.Version >= 23) {
@@ -48,7 +52,7 @@ class HomeScreen extends Component {
         });
         this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
             // Process your token as required
-            console.debug(fcmToken);
+            console.log(fcmToken);
         });
         //fcm
 
@@ -183,7 +187,7 @@ class HomeScreen extends Component {
                         title="send notify"
                         onPress={ () => {
                             const notification = new firebase.notifications.Notification();
-                            notification.setNotificationId("1");
+                            notification.setNotificationId("2");
                             notification.setTitle("TEST");
                             notification.setBody("되나요??");
                             notification.android.setChannelId("리액트 테스트");
@@ -219,9 +223,9 @@ class HomeScreen extends Component {
                 if ((read_s === PermissionsAndroid.RESULTS.GRANTED) &&
                     (write_s === PermissionsAndroid.RESULTS.GRANTED) &&
                     (find_l === PermissionsAndroid.RESULTS.GRANTED)) {
-                    console.debug("You can use the READ_EXTERNAL_STORAGE");
+                    console.log("You can use the READ_EXTERNAL_STORAGE");
                 } else {
-                    console.debug(result);
+                    console.log(result);
                 }
 
             });
@@ -230,25 +234,25 @@ class HomeScreen extends Component {
             firebase.messaging().hasPermission()
                 .then(enabled => {
                     if (enabled) {
-                        console.debug("fcm has Permission");
+                        console.log("fcm has Permission");
                     } else {
-                        console.debug("fcm has not Permission");
+                        console.log("fcm has not Permission");
                     }
                 });
 
             firebase.messaging().requestPermission()
                 .then(() => {
-                    console.debug("fcm guarantee");
+                    console.log("fcm guarantee");
                     firebase.messaging().getToken()
                         .then(fcmToken => {
-                            fcmToken && console.debug(fcmToken);
+                            fcmToken && console.log(fcmToken);
                         })
                         .catch(error => {
-                            console.debug(error);
+                            console.log(error);
                         });
                 })
                 .catch(error => {
-                    console.debug("fcm not guarantee");
+                    console.log("fcm not guarantee");
                 });
             //fcm
 

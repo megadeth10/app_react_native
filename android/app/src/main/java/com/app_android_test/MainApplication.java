@@ -3,6 +3,7 @@ package com.app_android_test;
 import android.app.Application;
 
 import com.airbnb.android.react.maps.MapsPackage;
+import com.app_android_test.fingerpush.FingerPushPackage;
 import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
@@ -42,7 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFirebasePackage(),
                     new RNFirebaseAnalyticsPackage(), 
                     new RNFirebaseMessagingPackage(),
-                    new RNFirebaseNotificationsPackage()
+                    new RNFirebaseNotificationsPackage(),
+                    new FingerPushPackage()
             );
         }
 
