@@ -44,10 +44,11 @@ class HomeScreen extends Component {
 
             const notification = new firebase.notifications.Notification();
             notification.setNotificationId("1");
-            notification.setTitle("foreground 메시지");
-            notification.setBody("되나요??");
+            notification.setTitle(message.data.title ? message.data.title + "foreground 메시지" : "foreground 메시지");
+            notification.setBody(message.data.message ? message.data.message : "되나요??");
+            notification.android.setDefaults([firebase.notifications.Android.Defaults.All]);
             // if (Platform.Version >= 26) {//set channel
-                notification.android.setChannelId("리액트 테스트");
+            notification.android.setChannelId("리액트 테스트");
             // }
 
             firebase.notifications().displayNotification(notification);
@@ -192,8 +193,9 @@ class HomeScreen extends Component {
                         onPress={ () => {
                             const notification = new firebase.notifications.Notification();
                             notification.setNotificationId("2");
-                            notification.setTitle("TEST");
-                            notification.setBody("되나요??");
+                            notification.setTitle("샘플 노티");
+                            notification.setBody("샘플 노티");
+                            notification.android.setDefaults([firebase.notifications.Android.Defaults.All]);
                             notification.android.setChannelId("리액트 테스트");
 
                             firebase.notifications().displayNotification(notification);
