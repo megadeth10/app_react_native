@@ -9,9 +9,9 @@ export default async (message) => {
         notification.setTitle("백그라운드 메시지");
         notification.setBody("되나요??");
 
-        if (Platform.Version >= 26) {//set channel
+        // if (Platform.Version >= 26) {//set channel
             notification.android.setChannelId("리액트 테스트");
-        }
+        // }
     }
     firebase.notifications().displayNotification(notification);
 

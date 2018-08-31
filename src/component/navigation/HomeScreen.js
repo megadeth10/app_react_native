@@ -46,7 +46,9 @@ class HomeScreen extends Component {
             notification.setNotificationId("1");
             notification.setTitle("foreground 메시지");
             notification.setBody("되나요??");
-            notification.android.setChannelId("리액트 테스트");
+            // if (Platform.Version >= 26) {//set channel
+                notification.android.setChannelId("리액트 테스트");
+            // }
 
             firebase.notifications().displayNotification(notification);
         });
@@ -96,7 +98,7 @@ class HomeScreen extends Component {
             console.log(notification);
         });
 
-        if ((Platform.OS === 'android') && (Platform.Version >= 26)) {//set channel
+        if ((Platform.OS === 'android')) {//set channel
             const channel = new firebase.notifications.Android.Channel('리액트 테스트', '리액트 테스트', firebase.notifications.Android.Importance.High).setDescription('My apps test channel');
             firebase.notifications().android.createChannel(channel);
         }
@@ -200,9 +202,9 @@ class HomeScreen extends Component {
                     />
                     <Button
                         title="login"
-                        onPress={ () => 
+                        onPress={ () =>
                             NavigationService.navigate(AppStack.SCREEN_NAME[9].key, {
-                        })
+                            })
                         }
                     />
                 </Content>
