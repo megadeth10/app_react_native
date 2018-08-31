@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, ViewPagerAndroid, NativeModules } from 'react-native';
+import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, NativeModules } from 'react-native';
 import _ from 'lodash';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
@@ -120,6 +120,8 @@ class HomeScreen extends Component {
         //notification
     }
 
+
+
     render() {
         const { userInfo } = this.props;
         return (
@@ -194,6 +196,13 @@ class HomeScreen extends Component {
 
                             firebase.notifications().displayNotification(notification);
                         }
+                        }
+                    />
+                    <Button
+                        title="login"
+                        onPress={ () => 
+                            NavigationService.navigate(AppStack.SCREEN_NAME[9].key, {
+                        })
                         }
                     />
                 </Content>

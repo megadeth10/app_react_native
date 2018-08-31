@@ -4,7 +4,10 @@ import android.app.Application;
 
 import com.airbnb.android.react.maps.MapsPackage;
 import com.app_android_test.fingerpush.FingerPushPackage;
+import com.app_android_test.kakaolink.KakaoLinkPackage;
+import com.dooboolab.kakaologins.GlobalApplication;
 import com.facebook.react.ReactApplication;
+import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
@@ -19,7 +22,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends GlobalApplication implements ReactApplication {
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
@@ -37,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new RNKakaoLoginsPackage(),
                     new CodePush("i8fSpvyA39nFOUhLDLMlvh4G69vkryY2eeY8m", getApplicationContext(), BuildConfig.DEBUG),
                     new MapsPackage(),
                     new CustomToastPackage(),
@@ -44,7 +48,8 @@ public class MainApplication extends Application implements ReactApplication {
                     new RNFirebaseAnalyticsPackage(), 
                     new RNFirebaseMessagingPackage(),
                     new RNFirebaseNotificationsPackage(),
-                    new FingerPushPackage()
+                    new FingerPushPackage(),
+                    new KakaoLinkPackage()
             );
         }
 
