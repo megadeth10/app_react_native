@@ -40,18 +40,26 @@ class HomeScreen extends Component {
         //fcm
         this.messageListener = firebase.messaging().onMessage((message) => {
             // Process your message as required
+            console.log("포그라운드");
             console.log(message);
-
+            const { data } = message;
             const notification = new firebase.notifications.Notification();
-            notification.setNotificationId("1");
-            notification.setTitle(message.data.title ? message.data.title + "foreground 메시지" : "foreground 메시지");
-            notification.setBody(message.data.message ? message.data.message : "되나요??");
-            notification.android.setDefaults([firebase.notifications.Android.Defaults.All]);
-            // if (Platform.Version >= 26) {//set channel
-            notification.android.setChannelId("리액트 테스트");
-            // }
+            if (Platform.OS === "android") {
+                const title = data["data.title"] ? data["data.title"] + "foreground 메시지" : "foreground 메시지";
+                const bodyMsg = data["data.message"] ? decodeURIComponent(data["data.message"].replace(/\+/g, '%20')) : "푸시왔다";
+                notification.setNotificationId("1");
+                notification.setTitle(title);
+                notification.setBody(bodyMsg);
+                notification.android.setDefaults([firebase.notifications.Android.Defaults.All]);
+                // if (Platform.Version >= 26) {//set channel
+                notification.android.setChannelId("리액트 테스트");
+                // }
+                if (data["data.imgUrl"]) {
+                    notification.android.setBigPicture(data["data.imgUrl"], "ic_launcher", title, bodyMsg);
+                }
 
-            firebase.notifications().displayNotification(notification);
+                firebase.notifications().displayNotification(notification);
+            }
         });
         this.onTokenRefreshListener = firebase.messaging().onTokenRefresh(fcmToken => {
             // Process your token as required
