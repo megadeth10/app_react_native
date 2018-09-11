@@ -9,6 +9,7 @@ import AddressinMapScreen from './AddressinMapScreen';
 import InputScreen from './InputScreen';
 import WebViewScreen from './WebViewScreen';
 import LoginScreen from './LoginScreen';
+import ImageLayoutScreen from './ImageLayoutScreen';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
 
@@ -107,6 +108,15 @@ function setScreenName() {
                 }
             }
         },
+        {
+            key: "ImageLayoutScreen",
+            value: {
+                screen: ImageLayoutScreen,
+                navigationOptions :{
+                    header : null
+                }
+            }
+        },
     ];
 }
 
@@ -114,19 +124,14 @@ const SCREEN_NAME = new setScreenName();
 
 function getStack() {
     if (AStack === undefined) {
+        const screenMap = {};
+        for(item of SCREEN_NAME){
+            screenMap = {...screenMap, [item.key] : item.value };
+        }
+
         AStack = createStackNavigator(
-            {
-                [SCREEN_NAME[0].key]: SCREEN_NAME[0].value,
-                [SCREEN_NAME[1].key]: SCREEN_NAME[1].value,
-                [SCREEN_NAME[2].key]: SCREEN_NAME[2].value,
-                [SCREEN_NAME[3].key]: SCREEN_NAME[3].value,
-                [SCREEN_NAME[4].key]: SCREEN_NAME[4].value,
-                [SCREEN_NAME[5].key]: SCREEN_NAME[5].value,
-                [SCREEN_NAME[6].key]: SCREEN_NAME[6].value,
-                [SCREEN_NAME[7].key]: SCREEN_NAME[7].value,
-                [SCREEN_NAME[8].key]: SCREEN_NAME[8].value,
-                [SCREEN_NAME[9].key]: SCREEN_NAME[9].value,
-            },
+   
+            screenMap,
             {
                 initialRouteName: SCREEN_NAME[0].key,
             }

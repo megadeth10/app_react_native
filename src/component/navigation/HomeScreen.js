@@ -217,6 +217,13 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="Image layout"
+                        onPress={ () =>
+                            NavigationService.navigate("ImageLayoutScreen", {
+                            })
+                        }
+                    />
                 </Content>
             </Container>
 
