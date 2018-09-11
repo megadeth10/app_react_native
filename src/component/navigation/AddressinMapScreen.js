@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, AppState, ViewPagerAndroid, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
+import { View, Text, AppState, ViewPagerAndroid, StyleSheet, Dimensions, Image, TouchableOpacity, NativeModules } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right, Icon, Button } from 'native-base';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import NavigationService from './NavigationService';
@@ -83,17 +83,27 @@ class AddressinMapScreen extends Component {
     findMyLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                console.debug(position);
-                const { latitude, longitude } = position.coords;
+                // console.debug(position);
+                try {
+                    const { latitude, longitude } = position.coords;
 
-                if (latitude && longitude) {
-                    const { region } = this.state;
-                    this.setState({
-                        region: {
-                            ...region, latitude, longitude
-                        }
-                    });
+                    if (latitude && longitude) {
+                        const { region } = this.state;
+                        this.setState({
+                            region: {
+                                ...region, latitude, longitude
+                            }
+                        });
+                    }
+                } catch (error) {
+                    console.log(error);
                 }
+            }, (error) => {
+                console.log(error);
+                NativeModules.GPSCheck.enableGps(true)
+                .then(result => {
+                    console.log("GPS 상태 " + result);
+                });
             });
         }
     }
@@ -109,7 +119,7 @@ class AddressinMapScreen extends Component {
                     console.debug(address_name);
 
                     const { address, region } = this.state;
-                    
+
                     address_name && this.setState({
                         address: update(address, {
                             $set: address_name

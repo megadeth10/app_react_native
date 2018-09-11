@@ -5,6 +5,7 @@ import android.app.Application;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.app_android_test.fingerpush.FingerPushPackage;
 import com.app_android_test.kakaolink.KakaoLinkPackage;
+import com.app_android_test.utils.UtilPackage;
 import com.dooboolab.kakaologins.GlobalApplication;
 import com.facebook.react.ReactApplication;
 import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
@@ -49,7 +50,8 @@ public class MainApplication extends GlobalApplication implements ReactApplicati
                     new RNFirebaseMessagingPackage(),
                     new RNFirebaseNotificationsPackage(),
                     new FingerPushPackage(),
-                    new KakaoLinkPackage()
+                    new KakaoLinkPackage(),
+                    new UtilPackage()
             );
         }
 
