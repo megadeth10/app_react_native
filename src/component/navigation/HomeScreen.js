@@ -18,7 +18,8 @@ class HomeScreen extends Component {
 
     constructor(props) {
         super(props);
-        console.log("constructor");
+        const link = props.navigation.getParam("deeplink", undefined);
+        console.log("link: " + link);
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {

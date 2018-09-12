@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image } from 'react-native';
+import { View, Image, Linking, Platform } from 'react-native';
 import DeviceUtil from '../utils/DeviceUtil';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
@@ -16,10 +16,27 @@ class SplashScreen extends Component {
         super(props);
 
         DeviceUtil.ratioSize(360, 360);
+        this.deeplink = undefined;
+    }
+
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            Linking.getInitialURL().then(url => {
+                console.log("a deep link : " + url);
+                url && (this.deeplink = url);
+            });
+        } else {
+            Linking.addEventListener('url', this.handleOpenURL);
+        }
     }
 
     componentWillUnmount() {
         this.timer && clearTimeout(this.timer);
+        Linking.removeEventListener('url', this.handleOpenURL);
+    }
+
+    handleOpenURL = (event) => {
+        console.log("deep link : " + event.url);
     }
 
     render() {
@@ -41,9 +58,9 @@ class SplashScreen extends Component {
         this.timer = setTimeout(this.gotoHome, 3000);
     }
 
-    gotoHome = () =>{
+    gotoHome = () => {
         const date = new Date();
-        this.props.navigation.replace("Home",{},{});
+        this.props.navigation.replace("Home", { deeplink: this.deeplink }, {});
         // NavigationService.navigate(AppStack.SCREEN_NAME[1].key , {});
         console.log(date.getSeconds());
     }
