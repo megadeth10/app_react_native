@@ -1,4 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
+import SplashScreen from './SplashScreen';
 import HomeScreen from './HomeScreen';
 import CategoryScreen from './CategoryScreen';
 import DetailsScreen from './DetailsScreen';
@@ -18,6 +19,15 @@ let AStack = undefined;
 
 function setScreenName() {
     return [
+        {
+            key: "SplashScreen",
+            value: {
+                screen: SplashScreen,
+                navigationOptions: {
+                    header: null
+                }
+            }
+        },
         {
             key: "Home",
             value: {
@@ -170,7 +180,7 @@ const transitionConfig = () => {
             const slideInFromBottom = { transform: [{ translateY }] }
 
             if (thisSceneParams.transition === "up") return slideInFromBottom
-            
+
             return slideFromRight
             // else return scaleWithOpacity
         },

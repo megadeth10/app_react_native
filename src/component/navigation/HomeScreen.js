@@ -146,7 +146,7 @@ class HomeScreen extends Component {
                     <Button
                         title="Go to Category"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[1].key, {
+                            NavigationService.navigate("Category", {
                                 itemId: 86,
                                 otherParam: 'anything you want here',
                                 group: ["aaa", "bbb"]
@@ -156,7 +156,7 @@ class HomeScreen extends Component {
                     <Button
                         title="Go to Detail"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[2].key, {
+                            NavigationService.navigate("Details", {
                             })
                         }
                     />
@@ -164,21 +164,21 @@ class HomeScreen extends Component {
                     <Button
                         title="Go to Pager"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[3].key, {
+                            NavigationService.navigate("Pager", {
                             })
                         }
                     />
                     <Button
                         title="Go to venderList"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[5].key, {
+                            NavigationService.navigate("VenderListScreen", {
                             })
                         }
                     />
                     <Button
                         title="find my position"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[6].key, {
+                            NavigationService.navigate("AddressinMapScreen", {
                                 transition: "up"
                             })
                         }
@@ -186,14 +186,14 @@ class HomeScreen extends Component {
                     <Button
                         title="input screen"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[7].key, {
+                            NavigationService.navigate("InputScreen", {
                             })
                         }
                     />
                     <Button
                         title="결제 화면"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[8].key, {
+                            NavigationService.navigate("WebViewScreen", {
                             })
                         }
                     />
@@ -214,7 +214,7 @@ class HomeScreen extends Component {
                     <Button
                         title="login"
                         onPress={ () =>
-                            NavigationService.navigate(AppStack.SCREEN_NAME[9].key, {
+                            NavigationService.navigate("LoginScreen", {
                             })
                         }
                     />
