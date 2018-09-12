@@ -86,7 +86,7 @@ class CategoryScreen extends Component {
                 <Button
                     title="Go to Jane's profile"
                     onPress={ () =>
-                        NavigationService.navigate(AppStack.SCREEN_NAME[2].key, { name: 'Jane' })
+                        NavigationService.navigate("Details", { name: 'Jane' })
                     }
                 />
                 <Text>itemId: { JSON.stringify(itemId) }</Text>
