@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Linking, Platform } from 'react-native';
+import { View, Image, Linking, Platform, NativeModules } from 'react-native';
 import DeviceUtil from '../utils/DeviceUtil';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
@@ -17,6 +17,8 @@ class SplashScreen extends Component {
 
         DeviceUtil.ratioSize(360, 360);
         this.deeplink = undefined;
+        this.imageLoaded = false;
+        this.nativeVersionChecked = false;
     }
 
     componentDidMount() {
@@ -28,6 +30,17 @@ class SplashScreen extends Component {
         } else {
             Linking.addEventListener('url', this.handleOpenURL);
         }
+
+        NativeModules.AppCheck.getCurrentVersionName()
+            .then((result) => {
+                console.log("getCurrentVersionName : " + result);
+                this.nativeVersionChecked = true;
+                this.gotoHome();
+            })
+            .catch((code, error) => {
+                this.nativeVersionChecked = false;
+                this.gotoHome();
+            });
     }
 
     componentWillUnmount() {
@@ -53,16 +66,21 @@ class SplashScreen extends Component {
     }
 
     onLoadEnd = () => {
-        const date = new Date();
-        console.log(date.getSeconds());
-        this.timer = setTimeout(this.gotoHome, 3000);
+        this.timer = setTimeout(this.imageLoadedChecker, 3000);
+    }
+
+    imageLoadedChecker = () => {
+        this.imageLoaded = true;
+        this.gotoHome();
     }
 
     gotoHome = () => {
-        const date = new Date();
-        this.props.navigation.replace("Home", { deeplink: this.deeplink }, {});
-        // NavigationService.navigate(AppStack.SCREEN_NAME[1].key , {});
-        console.log(date.getSeconds());
+        if (this.imageLoaded && this.nativeVersionChecked) {
+            this.props.navigation.replace("Home", {
+                deeplink: this.deeplink,
+                transition: "up"
+            }, {});
+        }
     }
 };
 
