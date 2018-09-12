@@ -179,6 +179,7 @@ class HomeScreen extends Component {
                         title="find my position"
                         onPress={ () =>
                             NavigationService.navigate(AppStack.SCREEN_NAME[6].key, {
+                                transition: "up"
                             })
                         }
                     />

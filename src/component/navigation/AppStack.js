@@ -12,6 +12,7 @@ import LoginScreen from './LoginScreen';
 import ImageLayoutScreen from './ImageLayoutScreen';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
+import { Easing, Animated } from 'react-native';
 
 let AStack = undefined;
 
@@ -21,8 +22,8 @@ function setScreenName() {
             key: "Home",
             value: {
                 screen: HomeScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -31,8 +32,8 @@ function setScreenName() {
             value: {
                 screen: CategoryScreen,
                 mode: "card",
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             },
         },
@@ -40,8 +41,8 @@ function setScreenName() {
             key: "Details",
             value: {
                 screen: DetailsScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -49,8 +50,8 @@ function setScreenName() {
             key: "Pager",
             value: {
                 screen: PagerScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -58,8 +59,8 @@ function setScreenName() {
             key: "StoreDetail",
             value: {
                 screen: StoreDetail,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -67,8 +68,8 @@ function setScreenName() {
             key: "VenderListScreen",
             value: {
                 screen: VenderListScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -76,8 +77,8 @@ function setScreenName() {
             key: "AddressinMapScreen",
             value: {
                 screen: AddressinMapScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -85,8 +86,8 @@ function setScreenName() {
             key: "InputScreen",
             value: {
                 screen: InputScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -94,8 +95,8 @@ function setScreenName() {
             key: "WebViewScreen",
             value: {
                 screen: WebViewScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -103,8 +104,8 @@ function setScreenName() {
             key: "LoginScreen",
             value: {
                 screen: LoginScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -112,8 +113,8 @@ function setScreenName() {
             key: "ImageLayoutScreen",
             value: {
                 screen: ImageLayoutScreen,
-                navigationOptions :{
-                    header : null
+                navigationOptions: {
+                    header: null
                 }
             }
         },
@@ -122,18 +123,73 @@ function setScreenName() {
 
 const SCREEN_NAME = new setScreenName();
 
+const transitionConfig = () => {
+    return {
+        transitionSpec: {
+            duration: 500,
+            easing: Easing.out(Easing.poly(4)),
+            timing: Animated.timing,
+            useNativeDriver: true,
+        },
+        screenInterpolator: sceneProps => {
+            const { position, layout, scene, index, scenes } = sceneProps
+
+            const thisSceneIndex = scene.index
+            const height = layout.initHeight
+            const width = layout.initWidth
+
+            // We can access our navigation params on the scene's 'route' property
+            var thisSceneParams = scene.route.params || {}
+
+            const translateX = position.interpolate({
+                //덥히는 screen
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
+                outputRange: [width, 0, 0]
+                //우측으로 연결된 screen
+                // inputRange: [thisSceneIndex - 1, thisSceneIndex],
+                // outputRange: [width, 0]
+            })
+
+            const translateY = position.interpolate({
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
+                outputRange: [height, 0, 0]
+            })
+
+            const opacity = position.interpolate({
+                inputRange: [thisSceneIndex - 1, thisSceneIndex - 0.5, thisSceneIndex],
+                outputRange: [0, 1, 1],
+            })
+
+            const scale = position.interpolate({
+                inputRange: [thisSceneIndex - 1, thisSceneIndex, thisSceneIndex + 1],
+                outputRange: [4, 1, 1]
+            })
+
+            const slideFromRight = { transform: [{ translateX }] }
+            const scaleWithOpacity = { opacity, transform: [{ scaleX: scale }, { scaleY: scale }] }
+            const slideInFromBottom = { transform: [{ translateY }] }
+
+            if (thisSceneParams.transition === "up") return slideInFromBottom
+            
+            return slideFromRight
+            // else return scaleWithOpacity
+        },
+    }
+}
+
 function getStack() {
     if (AStack === undefined) {
         const screenMap = {};
-        for(item of SCREEN_NAME){
-            screenMap = {...screenMap, [item.key] : item.value };
+        for (item of SCREEN_NAME) {
+            screenMap = { ...screenMap, [item.key]: item.value };
         }
 
         AStack = createStackNavigator(
-   
+
             screenMap,
             {
                 initialRouteName: SCREEN_NAME[0].key,
+                transitionConfig,
             }
         );
     }
