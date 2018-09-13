@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, Linking, Platform, NativeModules, AppState } from 'react-native';
+import { View, Image, Linking, Platform, NativeModules, AppState, Alert } from 'react-native';
 import DeviceUtil from '../utils/DeviceUtil';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
@@ -20,7 +20,6 @@ class SplashScreen extends Component {
         this.deeplink = undefined;
         this.imageLoaded = false;
         this.nativeVersionChecked = false;
-        this.inProgressVersionCheck = false;
     }
 
     componentDidMount() {
@@ -32,13 +31,22 @@ class SplashScreen extends Component {
         } else {
             Linking.addEventListener('url', this.handleOpenURL);
         }
-        AppState.addEventListener('change', this._handleAppStateChange);
+        // AppState.addEventListener('change', this._handleAppStateChange);
+        NativeModules.AppCheck.getCurrentVersionName()
+            .then((result) => {
+                console.log("getCurrentVersionName : " + result);
+                this.versionCheck(result);
+            })
+            .catch((code, error) => {
+                this.nativeVersionChecked = false;
+                this.gotoHome();
+            });
     }
 
     componentWillUnmount() {
         this.timer && clearTimeout(this.timer);
         Linking.removeEventListener('url', this.handleOpenURL);
-        AppState.removeEventListener('change', this._handleAppStateChange);
+        // AppState.removeEventListener('change', this._handleAppStateChange);
     }
 
     handleOpenURL = (event) => {
@@ -58,20 +66,19 @@ class SplashScreen extends Component {
         );
     }
 
-    _handleAppStateChange = (nextAppState) => {
-        if(!this.nativeVersionChecked && (nextAppState === 'active') && !this.inProgressVersionCheck){
-            this.inProgressVersionCheck = true;
-            NativeModules.AppCheck.getCurrentVersionName()
-            .then((result) => {
-                console.log("getCurrentVersionName : " + result);
-                this.versionCheck(result);
-            })
-            .catch((code, error) => {
-                this.nativeVersionChecked = false;
-                this.gotoHome();
-            });
-        }
-    }
+    // _handleAppStateChange = (nextAppState) => {
+    //     if(!this.nativeVersionChecked && (nextAppState === 'active')){
+    //         NativeModules.AppCheck.getCurrentVersionName()
+    //         .then((result) => {
+    //             console.log("getCurrentVersionName : " + result);
+    //             this.versionCheck(result);
+    //         })
+    //         .catch((code, error) => {
+    //             this.nativeVersionChecked = false;
+    //             this.gotoHome();
+    //         });
+    //     }
+    // }
 
     onLoadEnd = () => {
         this.timer = setTimeout(this.imageLoadedChecker, 3000);
@@ -94,7 +101,7 @@ class SplashScreen extends Component {
 
                         var len = Math.min(localVersion.length, newVersion.length);
                         const isNew = false;
-                        
+
                         for (var i = 0; i < len; i++) {
                             // A bigger than B
                             if (parseInt(localVersion[i]) > parseInt(newVersion[i])) {
@@ -108,20 +115,24 @@ class SplashScreen extends Component {
                         }
 
                         if (isNew) {
-                            //Native Dialog 보다 Js Dialog로 출력하는 것이 편해 보임.
-                            //이유는 dialog 버튼 동작 처리와 background=>foreground 변경시 중복 팝업 발생함.
-                            NativeModules.AppCheck.gotoMarketDialog(
-                                iosAppVer, 
-                                "http://play.google.com/store/apps/details?id=com.honeybees.ddingdong"
-                            ).then((result) => {
-                                if(result){
-                                    this.nativeVersionChecked = true;
-                                    this.gotoHome();        
-                                } else {
-                                    this.nativeVersionChecked = false;
-                                    this.inProgressVersionCheck = false;
+                            const title = "업데이트";
+                            const message = `현재 버전은 ${version} 입니다.\n최신 버전은 ${iosAppVer} 입니다.\n업데이트를 위해서 마켓으로 이동 하시겠습니까?`;
+                            Alert.alert(title, message, [
+                                {
+                                    text: "아니요",
+                                    onPress: () => { 
+                                        this.nativeVersionChecked = true; 
+                                        this.gotoHome();
+                                    }
+                                },
+                                {
+                                    text: "업데이트",
+                                    onPress: () => {
+                                        this.nativeVersionChecked = false;
+                                        NativeModules.AppCheck.gotoMarket("http://play.google.com/store/apps/details?id=com.honeybees.ddingdong");
+                                    }
                                 }
-                            });
+                            ], { cancelable: false });
                         } else {
                             this.nativeVersionChecked = true;
                             this.gotoHome();
