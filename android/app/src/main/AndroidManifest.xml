@@ -15,6 +15,9 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- react-native-image-picker -->
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".MainApplication"
         android:allowBackup="false"

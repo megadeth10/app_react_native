@@ -42,7 +42,7 @@ ext {
     minSdkVersion = 16
     compileSdkVersion = 26
     targetSdkVersion = 26
-    supportLibVersion = "26.1.0"
+    supportLibVersion = "27.0.2"
     googlePlayServicesVersion = "15.0.1"
     androidMapsUtilsVersion = "0.5+"
 }

@@ -226,6 +226,13 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="goto Camera"
+                        onPress={ () =>
+                            NavigationService.navigate("CameraScreen", {
+                            })
+                        }
+                    />
                 </Content>
             </Container>
 

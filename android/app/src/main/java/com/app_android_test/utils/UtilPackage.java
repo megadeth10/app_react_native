@@ -14,7 +14,7 @@ public class UtilPackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new GpsCheckModule(reactContext));
-        modules.add(new AppCheck(reactContext));
+        modules.add(new AppCheckModule(reactContext));
         return modules;
     }
 

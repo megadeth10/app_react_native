@@ -11,8 +11,8 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
-public class AppCheck extends ReactContextBaseJavaModule {
-    public AppCheck(ReactApplicationContext reactContext) {
+public class AppCheckModule extends ReactContextBaseJavaModule {
+    public AppCheckModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 

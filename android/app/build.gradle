@@ -169,12 +169,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     //fcm
     implementation 'com.google.firebase:firebase-messaging:17.1.0'
-
     //kakao login
     implementation project(':react-native-kakao-logins')
-
     implementation 'com.kakao.sdk:kakaolink:1.11.1'
     implementation 'com.kakao.sdk:kakaostory:1.11.1'
+
+    //camera
+    implementation project(':react-native-image-picker')
 }
 
 // Run this once to be able to run the application with BUCK

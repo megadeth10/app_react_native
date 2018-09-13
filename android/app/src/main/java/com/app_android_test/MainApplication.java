@@ -1,7 +1,5 @@
 package com.app_android_test;
 
-import android.app.Application;
-
 import com.airbnb.android.react.maps.MapsPackage;
 import com.app_android_test.fingerpush.FingerPushPackage;
 import com.app_android_test.kakaolink.KakaoLinkPackage;
@@ -9,12 +7,13 @@ import com.app_android_test.utils.UtilPackage;
 import com.dooboolab.kakaologins.GlobalApplication;
 import com.facebook.react.ReactApplication;
 import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
+import com.imagepicker.ImagePickerPackage;
 import io.invertase.firebase.RNFirebasePackage;
+import com.microsoft.codepush.react.CodePush;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
-import com.microsoft.codepush.react.CodePush;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -41,6 +40,7 @@ public class MainApplication extends GlobalApplication implements ReactApplicati
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new ImagePickerPackage(),
                     new RNKakaoLoginsPackage(),
                     new CodePush("i8fSpvyA39nFOUhLDLMlvh4G69vkryY2eeY8m", getApplicationContext(), BuildConfig.DEBUG),
                     new MapsPackage(),
