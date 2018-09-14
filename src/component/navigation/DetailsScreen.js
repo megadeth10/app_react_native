@@ -91,10 +91,21 @@ class DetailsScreen extends Component {
                             this.requestCameraPermission
                         }
                     />
+
+                    <Button
+                        title="reset Home"
+                        onPress={
+                            this.resetHome
+                        }
+                    />
                 </View>
             </DrawerLayoutAndroid>
 
         );
+    }
+
+    resetHome = () => {
+        NavigationService.popToResetTop();
     }
 
     async requestCameraPermission() {

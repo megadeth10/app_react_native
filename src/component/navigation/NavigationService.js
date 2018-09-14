@@ -25,9 +25,25 @@ function goBack() {
 function popToTop() {
     _navigator.dispatch(
         StackActions.popToTop({
-            type : "Navigation/POP_TO_TOP"
+            type: "Navigation/POP_TO_TOP"
         })
     );
+}
+
+function popToResetTop() {
+    const resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+            NavigationActions.navigate({
+                routeName: "Home",
+                params: {
+                    deeplink: undefined
+                }
+            })
+        ],
+    });
+
+    _navigator.dispatch(resetAction);
 }
 
 export default {
@@ -35,4 +51,5 @@ export default {
     setTopLevelNavigator,
     goBack,
     popToTop,
+    popToResetTop,
 };
