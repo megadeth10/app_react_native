@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, NativeModules } from 'react-native';
+import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, NativeModules, Modal, TouchableHighlight, Alert } from 'react-native';
 import _ from 'lodash';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
@@ -20,6 +20,10 @@ class HomeScreen extends Component {
         super(props);
         const link = props.navigation.getParam("deeplink", undefined);
         console.log("link: " + link);
+
+        this.state = {
+            modalVisible: false
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -130,6 +134,10 @@ class HomeScreen extends Component {
         this.notificationListener();
         this.notificationOpenedListener();
         //notification
+
+        this.state = {
+            modalVisible: false
+        }
     }
 
 
@@ -233,10 +241,40 @@ class HomeScreen extends Component {
                             })
                         }
                     />
+                    <Button
+                        title="show modal"
+                        onPress={ this.showModal }
+                    />
+                    <Modal
+                        animationType="slide"
+                        transparent={ false }
+                        visible={ this.state.modalVisible }
+                        onRequestClose={ () => {
+                            Alert.alert('Modal has been closed.');
+                            this.showModal();
+                        } }>
+                        <View style={ { marginTop: 22 } }>
+                            <View>
+                                <Text>Hello World!</Text>
+
+                                <TouchableHighlight
+                                    onPress={ this.showModal }>
+                                    <Text>Hide Modal</Text>
+                                </TouchableHighlight>
+                            </View>
+                        </View>
+                    </Modal>
                 </Content>
             </Container>
 
         );
+    }
+
+    showModal = () => {
+        const { modalVisible } = this.state;
+        this.setState({
+            modalVisible: !modalVisible
+        });
     }
 
     requestCameraPermission = () => {
