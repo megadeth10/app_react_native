@@ -3,6 +3,19 @@ import PropTypes from 'prop-types';
 import { Button, View, Text, Image, Platform, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
+/**
+ * ImageResizer.java
+ * createResizedImage() method에 아래 코드 수정하여 file name 유지 하도록 변경함.
+ * //        if (outputPath != null) {
+ * //            path = new File(outputPath);
+ * //        }
+        //기존 파일 삭제
+        for(File file : path.listFiles()){
+            if(file.getName().equals(outputPath+"."+compressFormat.name())){
+                file.delete();
+            }
+       }
+ */
 
 const propTypes = {
 }
