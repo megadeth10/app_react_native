@@ -111,6 +111,22 @@ export default class CategoryData {
         })
     }
 
+    static getDaumAddress({ search }) {
+        return fetch(`https://dapi.kakao.com/v2/local/search/address.json?query="${search}"`, {
+            method: "GET",
+            headers: {
+                Authorization : "KakaoAK d79e0c1754cd3b420bfb18d109d04e61"
+            }
+        }).then((result) => {
+            const { status } = result;
+            if (status === 200) {
+                return result.json();
+            }
+
+            return undefined;
+        })
+    }
+
     static getVersion() {
         return fetch(`http://14.63.172.164:80/mobile/users/getTerms.do`, {
             method: "POST",
