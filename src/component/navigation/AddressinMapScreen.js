@@ -92,7 +92,6 @@ class AddressinMapScreen extends Component {
                     </View>
                     <FlatList style={ listStyle }
                         data={ addressdata }
-                        contentContainerStyle={ { flex: 1 } }
                         keyExtractor={ (item, index) => index.toString() }
                         renderItem={ this.renderAddressRow } />
                 </View>
