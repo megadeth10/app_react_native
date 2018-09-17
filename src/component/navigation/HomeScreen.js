@@ -148,7 +148,7 @@ class HomeScreen extends Component {
             <Container style={ { backgroundColor: "#ffffff" } }>
                 <Header style={ { backgroundColor: "#fdd002" } }>
                     <Body>
-                        <Title style={ { color: "#000000", paddingLeft: 20 } }>Home</Title>
+                        <Title style={ { color: "#000000", paddingLeft: 20 } }>Home{+ __DEV__ ? "  debug" : "  release"}</Title>
                     </Body>
                 </Header>
                 <Content>
