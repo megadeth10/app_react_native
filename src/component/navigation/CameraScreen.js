@@ -15,6 +15,10 @@ import ImageResizer from 'react-native-image-resizer';
                 file.delete();
             }
        }
+       
+       File newFile = ImageResizer.saveImage(rotatedImage, path,
+        outputPath, compressFormat, quality);
+
  */
 
 const propTypes = {
