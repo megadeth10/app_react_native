@@ -111,7 +111,7 @@ class InputScreen extends Component {
     goMainImage = (e) => {
         if (this.refs.mainImage) {
             const { mainImage } = this.offset;
-            this.refs.scrollView.scrollTo({ x: 0, y: mainImage, animated: true });
+            this.refs.scrollView.scrollTo({ x: 0, y: 0, animated: true });
         }
     }
 

@@ -90,6 +90,9 @@ class SplashScreen extends Component {
     }
 
     versionCheck = (version) => {
+        this.nativeVersionChecked = true;
+        this.gotoHome();
+        return;
         if (version) {
             CategoryData.getVersion()
                 .then((result) => {
