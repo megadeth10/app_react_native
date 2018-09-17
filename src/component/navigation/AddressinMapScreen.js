@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, AppState, ViewPagerAndroid, StyleSheet, Dimensions, Image, TouchableOpacity, NativeModules } from 'react-native';
+import { View, Text, Dimensions, NativeModules, FlatList, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right, Icon, Button } from 'native-base';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import NavigationService from './NavigationService';
@@ -8,6 +8,7 @@ import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
 import CategoryData from './RestApi/CategoryData';
+import CusImageView from '../view/CusImageView';
 
 const propTypes = {
 }
@@ -18,11 +19,6 @@ const defaultProps = {
 class AddressinMapScreen extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            isMapReady: false,
-            address: undefined
-        }
 
         const { width, height } = Dimensions.get('window');
         this.ASPECT_RATIO = width / height;
@@ -35,11 +31,23 @@ class AddressinMapScreen extends Component {
                 longitude: 127.0417732,
                 latitudeDelta: this.LATITUDE_DELTA,
                 longitudeDelta: this.LONGITUDE_DELTA,
-            }
+            },
+            isMapReady: false,
+            address: undefined,
+            addressdata: []
         };
     }
 
     render() {
+        const { addressdata } = this.state;
+
+        const listStyle = {
+            display: addressdata.length > 0 ? "flex" : "none",
+            width: addressdata.length > 0 ? "100%" : 0,
+            height: addressdata.length > 0 ? "100%" : 0,
+            position: "absolute"
+        }
+
         return (
             <Container style={ { backgroundColor: "#ffffff" } }>
                 <Header style={ { backgroundColor: "#fdd002" } }>
@@ -52,22 +60,41 @@ class AddressinMapScreen extends Component {
                         <Title style={ { color: "#000000" } }>주소 선택</Title>
                     </Body>
                 </Header>
+                <TextInput style={ { width: "100%", borderWidth: 1, paddingTop: 0, paddingBottom: 0 } } editable={ true }
+                    multiline={ false } onChangeText={ this.onChangeText }
+                    returnKeyType="search" placeholder="입력해 주세요."
+                    ref="inputText"
+                    underlineColorAndroid={ 'transparent' }
+                    onKeyPress={ this.onKeyPress }
+                    onSubmitEditing={ this.onSumbmit }
+                />
                 <View style={ { flex: 1 } }>
-                    <MapView
-                        provider={ PROVIDER_GOOGLE }
-                        region={ this.state.region }
-                        mapType="standard"
-                        style={ {
-                            width: "100%",
-                            height: "100%",
-                            position: "absolute"
-                        } }
-                        onRegionChangeComplete={ this.onRegionChangeComplete }
-                        onLayout={ this.onMapLayout }
-                        zoomControlEnabled={ true } />
-                    <Icon style={ {
-                        position: "absolute", left: "50%", top: "50%", marginTop: -28, marginLeft: -9
-                    } } name="arrow-back" />
+                    <View style={ {
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute"
+                    } }>
+                        <MapView
+                            provider={ PROVIDER_GOOGLE }
+                            region={ this.state.region }
+                            mapType="standard"
+                            style={ {
+                                width: "100%",
+                                height: "100%",
+                                position: "absolute"
+                            } }
+                            onRegionChangeComplete={ this.onRegionChangeComplete }
+                            onLayout={ this.onMapLayout }
+                            zoomControlEnabled={ true } />
+                        <Icon style={ {
+                            position: "absolute", left: "50%", top: "50%", marginTop: -28, marginLeft: -9
+                        } } name="arrow-back" />
+                    </View>
+                    <FlatList style={ listStyle }
+                        data={ addressdata }
+                        contentContainerStyle={ { flex: 1 } }
+                        keyExtractor={ (item, index) => index.toString() }
+                        renderItem={ this.renderAddressRow } />
                 </View>
                 <Text style={ { width: "100%", justifyContent: "center" } }>
                     { this.state.address ? this.state.address : "" }
@@ -80,10 +107,85 @@ class AddressinMapScreen extends Component {
         );
     }
 
+    renderAddressRow = (rowData) => {
+        const width = DeviceUtil.ratioSize(75, 360);
+        const height = DeviceUtil.ratioSize(47, 360);
+        const { road_address } = rowData.item;
+
+        return (
+            <TouchableOpacity onPress={ (e) => this._onPress(e, rowData.item) }>
+                <View style={ {
+                    flexDirection: "row",
+                    alignItems: "center",
+                    height: DeviceUtil.ratioSize(49, 360),
+                    backgroundColor: '#6495ED',
+                    borderColor: "black",
+                    borderWidth: 1,
+                } }>
+                    <CusImageView item={ { uri: "" } } style={ { width, height } } />
+                    <View style={ {
+                        flexDirection: "column",
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: 'transparent',
+                    } }>
+                        <Text>{ (road_address.region_1depth_name ? road_address.region_1depth_name : "")
+                            + (road_address.region_2depth_name ? " " + road_address.region_2depth_name : "")
+                            + (road_address.region_3depth_name ? " " + road_address.region_3depth_name : "")
+                            + (road_address.road_name ? " (" + road_address.road_name + ")" : "") }
+                        </Text>
+                    </View>
+                </View>
+            </TouchableOpacity >
+        );
+    }
+
+    _onPress = (e, item) => {
+        console.log(item);
+        const { region } = this.state;
+        
+        this.setState({
+            addressdata: [],
+            region: {
+                ...region,
+                latitude: parseFloat(item.y),
+                longitude: parseFloat(item.x)
+            }
+        });
+    }
+
+    onSumbmit = (e) => {
+        if (this.inputObject) {
+            CategoryData.getDaumAddress({ search: this.inputObject })
+                .then((result) => {
+                    const { documents } = result;
+                    console.log(documents);
+                    if (documents.length > 0) {
+                        this.setState({
+                            addressdata: documents
+                        });
+                    }
+                })
+                .catch((error) => {
+
+                });
+        } else {
+            Alert.alert('검색어를 입력해 주세요.');
+        }
+    }
+
+    onKeyPress = (e) => {
+        console.log(e.nativeEvent.key);
+    }
+
+    onChangeText = (text) => {
+        this.inputObject = text;
+    }
+
     findMyLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition((position) => {
-                // console.debug(position);
+                console.debug(position);
                 try {
                     const { latitude, longitude } = position.coords;
 
@@ -101,9 +203,9 @@ class AddressinMapScreen extends Component {
             }, (error) => {
                 console.log(error);
                 NativeModules.GPSCheck.enableGps(true)
-                .then(result => {
-                    console.log("GPS 상태 " + result);
-                });
+                    .then(result => {
+                        console.log("GPS 상태 " + result);
+                    });
             });
         }
     }
