@@ -173,9 +173,10 @@ dependencies {
     implementation project(':react-native-kakao-logins')
     implementation 'com.kakao.sdk:kakaolink:1.11.1'
     implementation 'com.kakao.sdk:kakaostory:1.11.1'
-
     //camera
     implementation project(':react-native-image-picker')
+    //image file resizer
+    implementation project(':react-native-image-resizer')
 }
 
 // Run this once to be able to run the application with BUCK

@@ -6,6 +6,7 @@ import com.app_android_test.kakaolink.KakaoLinkPackage;
 import com.app_android_test.utils.UtilPackage;
 import com.dooboolab.kakaologins.GlobalApplication;
 import com.facebook.react.ReactApplication;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
 import com.imagepicker.ImagePickerPackage;
 import io.invertase.firebase.RNFirebasePackage;
@@ -40,6 +41,7 @@ public class MainApplication extends GlobalApplication implements ReactApplicati
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new ImageResizerPackage(),
                     new ImagePickerPackage(),
                     new RNKakaoLoginsPackage(),
                     new CodePush("i8fSpvyA39nFOUhLDLMlvh4G69vkryY2eeY8m", getApplicationContext(), BuildConfig.DEBUG),

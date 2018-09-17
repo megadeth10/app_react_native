@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, View, Text, AppState, Image, Platform } from 'react-native';
+import { Button, View, Text, Image, Platform, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 const propTypes = {
 }
@@ -21,6 +22,7 @@ const options = {
     }
 };
 
+// TODO 카메라 및 갤러리 이미지 3M로 downgrade 하도록 변경 해야함.
 class CameraScreen extends Component {
     constructor(props) {
         super(props);
@@ -31,7 +33,6 @@ class CameraScreen extends Component {
     }
     render() {
         const { imageUrl } = this.state;
-
         return (
             <View>
                 <Button style={ { y: 0 } } title="카메라로 이동" onPress={ this.gotoCamera } />
@@ -44,6 +45,7 @@ class CameraScreen extends Component {
                                 height: "100%"
                             } }
                             resizeMode="contain"
+                            onLoadStart={ this.onLoadStart }
                             onLoadEnd={ this.onLoadEnd }
                         />) :
                         (
@@ -53,6 +55,11 @@ class CameraScreen extends Component {
             </View>
         );
     }
+
+    onLoadStart = () => {
+        console.log('onLoadStart');
+    }
+
 
     onLoadEnd = () => {
         console.log('onLoadEnd');
@@ -79,12 +86,37 @@ class CameraScreen extends Component {
 
                 if (Platform.OS === "android") {
                     if (typeof source.uri === "string") {
-                        // const slice = source.uri.split("content:/");
                         const absolutePath = `file://${source.uri}`;
-                        console.log(absolutePath);
-                        this.setState({
-                            imageUrl: { uri: absolutePath }
-                        });
+                        if (response.fileSize > 3600000) {
+                            console.log("large image file(byte): " + response.fileSize);
+                            //file resize
+                            ImageResizer.createResizedImage(response.uri, 1280, 720, "JPEG",
+                                100, 0, "1")
+                                .then((response) => {
+                                    const { path } = response;
+
+                                    if (path) {
+                                        console.log("resize image file(byte): " + response.size);
+                                        console.log("resize image file(path): " + path);
+                                        const resizePath = `file://${path}`;
+                                        //파일명은 동일 하지만 uri의 paramter가 변경된것으로 인식하여 cache를 사용하지 않고 reload 함
+                                        // "? new Date()" parameter 추가함.
+                                        this.setState({
+                                            imageUrl: { uri: resizePath + "?" + new Date() }
+                                        });
+                                    } else {
+                                        throw new Error("이미지 파일 오류");
+                                    }
+                                })
+                                .catch((err) => {
+                                    Alert.alert('이미지 파일 오류.\n' + err);
+                                });
+                        } else {
+                            //파일명은 동일 하지만 uri의 paramter가 변경된것으로 인식하여 cache를 사용하지 않고 reload 함
+                            this.setState({
+                                imageUrl: { uri: absolutePath + "?" + new Date() }
+                            });
+                        }
                     }
                 }
             }
