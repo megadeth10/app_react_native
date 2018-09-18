@@ -75,8 +75,9 @@ class AddressinMapScreen extends Component {
                         position: "absolute"
                     } }>
                         <MapView
+                            ref="map"
                             provider={ PROVIDER_GOOGLE }
-                            region={ this.state.region }
+                            initialRegion={ this.state.region }
                             mapType="standard"
                             style={ {
                                 width: "100%",
@@ -85,7 +86,8 @@ class AddressinMapScreen extends Component {
                             } }
                             onRegionChangeComplete={ this.onRegionChangeComplete }
                             onLayout={ this.onMapLayout }
-                            zoomControlEnabled={ true } />
+                            zoomControlEnabled={ true }
+                            maxZoomLevel={ 20 } />
                         <Icon style={ {
                             position: "absolute", left: "50%", top: "50%", marginTop: -28, marginLeft: -9
                         } } name="arrow-back" />
@@ -122,6 +124,8 @@ class AddressinMapScreen extends Component {
             where = "도로명 주소";
         }
 
+        const { region_1depth_name, region_2depth_name, region_3depth_name, road_name } = display;
+
         return (
             <TouchableOpacity onPress={ (e) => this._onPress(e, rowData.item) }>
                 <View style={ {
@@ -139,7 +143,12 @@ class AddressinMapScreen extends Component {
                         height: "100%",
                         backgroundColor: 'transparent',
                     } }>
-                        <Text>{ where + ": " + (display.address_name ? display.address_name : "") }
+                        <Text>
+                            { where + ": " + (region_1depth_name ? region_1depth_name : "")
+                                + (region_2depth_name ? " " + region_2depth_name : "")
+                                + (region_3depth_name ? " " + region_3depth_name : "")
+                                + (road_name ? " (" + road_name + ")" : "")
+                            }
                         </Text>
                     </View>
                 </View>
@@ -149,16 +158,17 @@ class AddressinMapScreen extends Component {
 
     _onPress = (e, item) => {
         console.log(item);
-        const { region } = this.state;
+        let { region } = this.state;
+        let newRegion = {};
+        newRegion.latitude = parseFloat(item.y);
+        newRegion.longitude = parseFloat(item.x);
+        newRegion.latitudeDelta = region.latitudeDelta;
+        newRegion.longitudeDelta = region.longitudeDelta;
 
         this.setState({
             addressdata: [],
-            region: {
-                ...region,
-                latitude: parseFloat(item.y),
-                longitude: parseFloat(item.x)
-            }
-        });
+            region: newRegion
+        }, this.refs.map.animateToRegion(newRegion, 0));
     }
 
     onSumbmit = (e) => {
@@ -197,12 +207,17 @@ class AddressinMapScreen extends Component {
                     const { latitude, longitude } = position.coords;
 
                     if (latitude && longitude) {
-                        const { region } = this.state;
+                        let { region } = this.state;
+                        let newRegion = {};
+                        newRegion.latitude = parseFloat(item.y);
+                        newRegion.longitude = parseFloat(item.x);
+                        newRegion.latitudeDelta = region.latitudeDelta;
+                        newRegion.longitudeDelta = region.longitudeDelta;
+
                         this.setState({
-                            region: {
-                                ...region, latitude, longitude
-                            }
-                        });
+                            addressdata: [],
+                            region: newRegion
+                        }, this.refs.map.animateToRegion(newRegion, 0));
                     }
                 } catch (error) {
                     console.log(error);
@@ -253,7 +268,7 @@ class AddressinMapScreen extends Component {
     }
 
     onRegionChangeComplete = (region) => {
-        // console.debug(region);
+        console.debug(region);
         this.getAddress(region);
     }
 
