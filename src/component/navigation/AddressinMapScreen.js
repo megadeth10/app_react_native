@@ -109,7 +109,18 @@ class AddressinMapScreen extends Component {
     renderAddressRow = (rowData) => {
         const width = DeviceUtil.ratioSize(75, 360);
         const height = DeviceUtil.ratioSize(47, 360);
-        const { road_address } = rowData.item;
+        const { address_type, address, road_address } = rowData.item;
+
+
+        let display = undefined;
+        let where = ""
+        if ((address_type === "REGION") || (address_type === "REGION_ADDR")) {
+            display = address;
+            where = "지번 주소";
+        } else if ((address_type === "ROAD") || (address_type === "ROAD_ADDR")) {
+            display = road_address;
+            where = "도로명 주소";
+        }
 
         return (
             <TouchableOpacity onPress={ (e) => this._onPress(e, rowData.item) }>
@@ -128,10 +139,7 @@ class AddressinMapScreen extends Component {
                         height: "100%",
                         backgroundColor: 'transparent',
                     } }>
-                        <Text>{ (road_address.region_1depth_name ? road_address.region_1depth_name : "")
-                            + (road_address.region_2depth_name ? " " + road_address.region_2depth_name : "")
-                            + (road_address.region_3depth_name ? " " + road_address.region_3depth_name : "")
-                            + (road_address.road_name ? " (" + road_address.road_name + ")" : "") }
+                        <Text>{ where + ": " + (display.address_name ? display.address_name : "") }
                         </Text>
                     </View>
                 </View>
@@ -142,7 +150,7 @@ class AddressinMapScreen extends Component {
     _onPress = (e, item) => {
         console.log(item);
         const { region } = this.state;
-        
+
         this.setState({
             addressdata: [],
             region: {
