@@ -13,8 +13,6 @@ import com.kakao.message.template.LinkObject;
 import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
 
-import static android.support.v4.content.ContextCompat.startActivity;
-
 public class KakaoLinkModule extends ReactContextBaseJavaModule {
 
     public KakaoLinkModule(ReactApplicationContext reactContext) {

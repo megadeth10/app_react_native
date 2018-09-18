@@ -10,22 +10,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.app_android_test.MainActivity;
+import com.app_android_test.utils.Log;
 import com.facebook.react.HeadlessJsTaskService;
 import com.fingerpush.android.FingerPushFcmListener;
 
 import com.app_android_test.R;
 import com.google.firebase.messaging.RemoteMessage;
 
-import net.minidev.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import io.invertase.firebase.Utils;
 import io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService;
