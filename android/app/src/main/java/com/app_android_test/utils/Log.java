@@ -1,7 +1,5 @@
 package com.app_android_test.utils;
 
-import android.os.Build;
-
 import com.app_android_test.BuildConfig;
 
 public class Log {
@@ -132,21 +130,17 @@ public class Log {
     }
 
     private static void logMessage_fn(LEVEL level, String tag, String msg) {
-        if (BuildConfig.DEBUG) {
-            logMessage(level, tag, "[" + getFuncName(3) + "] " + msg);
-        }
+        logMessage(level, tag, "[" + getFuncName(3) + "] " + msg);
     }
 
     private static void logMessage_fncn(LEVEL level, String tag, String msg) {
-        if (BuildConfig.DEBUG) {
-            logMessage(level, tag, "[" + getFuncName(3) + " from "
+        logMessage(level, tag, "[" + getFuncName(3) + " from "
                     + getFuncName(4) + "] " + msg);
-        }
     }
 
     private static void logMessage(LEVEL level, String tag, String msg) {
 
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             return;
         }
 
@@ -182,7 +176,7 @@ public class Log {
     
     private static void logMessage(LEVEL level, String tag, String msg, Throwable e) {
 
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             return;
         }
 
@@ -218,7 +212,7 @@ public class Log {
     
     private static void log4jMessage(int logType, String level, String tag, String msg) {
 
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             return;
         }
         
@@ -281,7 +275,7 @@ public class Log {
     private static void printStackTrace(String tag, StackTraceElement[] stack,
             LEVEL level) {
 
-        if (BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             return;
         }
 
