@@ -12,6 +12,7 @@ import WebViewScreen from './WebViewScreen';
 import LoginScreen from './LoginScreen';
 import ImageLayoutScreen from './ImageLayoutScreen';
 import CameraScreen from './CameraScreen';
+import FaceBookScreen from './FaceBookScreen';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
 import { Easing, Animated } from 'react-native';
@@ -133,6 +134,15 @@ function setScreenName() {
             key: "CameraScreen",
             value: {
                 screen: CameraScreen,
+                navigationOptions: {
+                    header: null
+                }
+            }
+        },
+        {
+            key: "FaceBookScreen",
+            value: {
+                screen: FaceBookScreen,
                 navigationOptions: {
                     header: null
                 }

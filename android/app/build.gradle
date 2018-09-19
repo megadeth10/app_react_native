@@ -177,6 +177,8 @@ dependencies {
     implementation project(':react-native-image-picker')
     //image file resizer
     implementation project(':react-native-image-resizer')
+    //facebook sdk
+    implementation project(':react-native-fbsdk')
 }
 
 // Run this once to be able to run the application with BUCK

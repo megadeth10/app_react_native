@@ -71,9 +71,17 @@
             android:value="false" />
         <!-- fcm -->
 
+        <!-- google map -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD6V_erf0-9cJ9lN_O5ELZzHgTRZLAsu94" />
+        <!-- google map -->
+
+        <!-- facebook sdk -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="238185046864527" />
+        <!-- facebook sdk -->
     </application>
 
 </manifest>

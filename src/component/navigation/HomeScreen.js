@@ -148,7 +148,7 @@ class HomeScreen extends Component {
             <Container style={ { backgroundColor: "#ffffff" } }>
                 <Header style={ { backgroundColor: "#fdd002" } }>
                     <Body>
-                        <Title style={ { color: "#000000", paddingLeft: 20 } }>Home{+ __DEV__ ? "  debug" : "  release"}</Title>
+                        <Title style={ { color: "#000000", paddingLeft: 20 } }>Home{ + __DEV__ ? "  debug" : "  release" }</Title>
                     </Body>
                 </Header>
                 <Content>
@@ -181,6 +181,7 @@ class HomeScreen extends Component {
                         title="Go to venderList"
                         onPress={ () =>
                             NavigationService.navigate("VenderListScreen", {
+                                transition: "scale"
                             })
                         }
                     />
@@ -188,7 +189,7 @@ class HomeScreen extends Component {
                         title="find my position"
                         onPress={ () =>
                             NavigationService.navigate("AddressinMapScreen", {
-                                transition: "up"
+                                transition: "bottom"
                             })
                         }
                     />
@@ -196,6 +197,7 @@ class HomeScreen extends Component {
                         title="input screen"
                         onPress={ () =>
                             NavigationService.navigate("InputScreen", {
+                                transition: "up"
                             })
                         }
                     />
@@ -240,6 +242,12 @@ class HomeScreen extends Component {
                             NavigationService.navigate("CameraScreen", {
                             })
                         }
+                    />
+                    <Button
+                        title="face book"
+                        onPress={ () =>
+                            NavigationService.navigate("FaceBookScreen", {
+                            }) }
                     />
                     <Button
                         title="show modal"
