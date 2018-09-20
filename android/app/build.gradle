@@ -179,6 +179,8 @@ dependencies {
     implementation project(':react-native-image-resizer')
     //facebook sdk
     implementation project(':react-native-fbsdk')
+    //language change
+    implementation project(':react-native-languages')
 }
 
 // Run this once to be able to run the application with BUCK

@@ -6,6 +6,7 @@ import AppStack from './AppStack';
 import { Container, Header, Left, Body, Right, Title, Text, Content } from 'native-base';
 import { connect } from 'redux-zero/react';
 import action from '../redux_zero/action';
+import i18n from '../language/i18n'
 
 //fcm
 import { RemoteMessage } from 'react-native-firebase';
@@ -223,7 +224,7 @@ class HomeScreen extends Component {
                         }
                     />
                     <Button
-                        title="login"
+                        title={i18n.t("login")}
                         onPress={ () =>
                             NavigationService.navigate("LoginScreen", {
                             })

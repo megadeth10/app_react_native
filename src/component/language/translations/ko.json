@@ -1,0 +1,5 @@
+{
+    "title": "react-native-languages 데모",
+    "current": "현재 언어 설정은 \"{{language}}\"",
+    "login": "로그인"
+}
