@@ -30,14 +30,16 @@ function popToTop() {
     );
 }
 
-function popToResetTop() {
+function popToResetTop(params) {
     const resetAction = StackActions.reset({
         index: 0,
         actions: [
             NavigationActions.navigate({
                 routeName: "Home",
                 params: {
-                    deeplink: undefined
+                    params
+                    // deeplink: undefined,
+                    // transition: "up"
                 }
             })
         ],

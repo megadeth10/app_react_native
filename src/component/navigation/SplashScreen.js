@@ -20,6 +20,7 @@ class SplashScreen extends Component {
         this.deeplink = undefined;
         this.imageLoaded = false;
         this.nativeVersionChecked = false;
+        console.log("is Debug mode : " + __DEV__);
     }
 
     componentDidMount() {
@@ -90,6 +91,10 @@ class SplashScreen extends Component {
     }
 
     versionCheck = (version) => {
+        this.nativeVersionChecked = true;
+        this.gotoHome();
+        return;
+
         if (version) {
             CategoryData.getVersion()
                 .then((result) => {
@@ -120,8 +125,8 @@ class SplashScreen extends Component {
                             Alert.alert(title, message, [
                                 {
                                     text: "아니요",
-                                    onPress: () => { 
-                                        this.nativeVersionChecked = true; 
+                                    onPress: () => {
+                                        this.nativeVersionChecked = true;
                                         this.gotoHome();
                                     }
                                 },
@@ -153,10 +158,11 @@ class SplashScreen extends Component {
 
     gotoHome = () => {
         if (this.imageLoaded && this.nativeVersionChecked) {
-            this.props.navigation.replace("Home", {
-                deeplink: this.deeplink,
-                transition: "up"
-            }, {});
+            // this.props.navigation.replace("Home", {
+            //     deeplink: this.deeplink,
+            //     transition: "up"
+            // }, {});
+            NavigationService.popToResetTop({ deeplink: this.deeplink, transition: "up" });
         }
     }
 };
