@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, NativeModules, Modal, TouchableHighlight, Alert } from 'react-native';
+import { Button, View, AppState, BackHandler, Platform, PermissionsAndroid, NativeModules, Modal, TouchableHighlight, Alert, TouchableOpacity } from 'react-native';
 import _ from 'lodash';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
@@ -7,6 +7,7 @@ import { Container, Header, Left, Body, Right, Title, Text, Content } from 'nati
 import { connect } from 'redux-zero/react';
 import action from '../redux_zero/action';
 import i18n from '../language/i18n'
+import ServerButton from '../view/ServerButton';
 
 //fcm
 import { RemoteMessage } from 'react-native-firebase';
@@ -141,142 +142,132 @@ class HomeScreen extends Component {
         }
     }
 
-
-
     render() {
         const { userInfo } = this.props;
         return (
-            <Container style={ { backgroundColor: "#ffffff" } }>
-                <Header style={ { backgroundColor: "#fdd002" } }>
-                    <Body>
-                        <Title style={ { color: "#000000", paddingLeft: 20 } }>Home{ + __DEV__ ? "  debug" : "  release" }</Title>
-                    </Body>
-                </Header>
-                <Content>
-                    <Button
-                        title="Go to Category"
-                        onPress={ () =>
-                            NavigationService.navigate("Category", {
-                                itemId: 86,
-                                otherParam: 'anything you want here',
-                                group: ["aaa", "bbb"]
-                            })
-                        }
-                    />
-                    <Button
-                        title="Go to Detail"
-                        onPress={ () =>
-                            NavigationService.navigate("Details", {
-                            })
-                        }
-                    />
-                    <Text>{ userInfo ? userInfo.name : "" }</Text>
-                    <Button
-                        title="Go to Pager"
-                        onPress={ () =>
-                            NavigationService.navigate("Pager", {
-                            })
-                        }
-                    />
-                    <Button
-                        title="Go to venderList"
-                        onPress={ () =>
-                            NavigationService.navigate("VenderListScreen", {
-                                transition: "scale"
-                            })
-                        }
-                    />
-                    <Button
-                        title="find my position"
-                        onPress={ () =>
-                            NavigationService.navigate("AddressinMapScreen", {
-                                transition: "bottom"
-                            })
-                        }
-                    />
-                    <Button
-                        title="input screen"
-                        onPress={ () =>
-                            NavigationService.navigate("InputScreen", {
-                                transition: "up"
-                            })
-                        }
-                    />
-                    <Button
-                        title="결제 화면"
-                        onPress={ () =>
-                            NavigationService.navigate("WebViewScreen", {
-                            })
-                        }
-                    />
-                    <Button
-                        title="send notify"
-                        onPress={ () => {
-                            const notification = new firebase.notifications.Notification();
-                            notification.setNotificationId("2");
-                            notification.setTitle("샘플 노티");
-                            notification.setBody("샘플 노티");
-                            notification.android.setDefaults([firebase.notifications.Android.Defaults.All]);
-                            notification.android.setChannelId("리액트 테스트");
+            <View style={ { flex: 1 } }>
+                <Container style={ { backgroundColor: "#ffffff" } }>
+                    <Header style={ { backgroundColor: "#fdd002" } }>
+                        <Body>
+                            <Title style={ { color: "#000000", paddingLeft: 20 } }>Home{ + __DEV__ ? "  debug" : "  release" }</Title>
+                        </Body>
+                    </Header>
+                    <Content>
+                        <Button
+                            title="Go to Category"
+                            onPress={ () =>
+                                NavigationService.navigate("Category", {
+                                    itemId: 86,
+                                    otherParam: 'anything you want here',
+                                    group: ["aaa", "bbb"]
+                                })
+                            }
+                        />
+                        <Button
+                            title="Go to Detail"
+                            onPress={ () =>
+                                NavigationService.navigate("Details", {
+                                })
+                            }
+                        />
+                        <Text>{ userInfo ? userInfo.name : "" }</Text>
+                        <Button
+                            title="Go to Pager"
+                            onPress={ () =>
+                                NavigationService.navigate("Pager", {
+                                })
+                            }
+                        />
+                        <Button
+                            title="Go to venderList"
+                            onPress={ () =>
+                                NavigationService.navigate("VenderListScreen", {
+                                    transition: "scale"
+                                })
+                            }
+                        />
+                        <Button
+                            title="find my position"
+                            onPress={ () =>
+                                NavigationService.navigate("AddressinMapScreen", {
+                                    transition: "bottom"
+                                })
+                            }
+                        />
+                        <Button
+                            title="input screen"
+                            onPress={ () =>
+                                NavigationService.navigate("InputScreen", {
+                                    transition: "up"
+                                })
+                            }
+                        />
+                        <Button
+                            title="결제 화면"
+                            onPress={ () =>
+                                NavigationService.navigate("WebViewScreen", {
+                                })
+                            }
+                        />
+                        <Button
+                            title="send notify"
+                            onPress={ () => {
+                                const notification = new firebase.notifications.Notification();
+                                notification.setNotificationId("2");
+                                notification.setTitle("샘플 노티");
+                                notification.setBody("샘플 노티");
+                                notification.android.setDefaults([firebase.notifications.Android.Defaults.All]);
+                                notification.android.setChannelId("리액트 테스트");
 
-                            firebase.notifications().displayNotification(notification);
-                        }
-                        }
-                    />
-                    <Button
-                        title={i18n.t("login")}
-                        onPress={ () =>
-                            NavigationService.navigate("LoginScreen", {
-                            })
-                        }
-                    />
-                    <Button
-                        title="Image layout"
-                        onPress={ () =>
-                            NavigationService.navigate("ImageLayoutScreen", {
-                            })
-                        }
-                    />
-                    <Button
-                        title="goto Camera"
-                        onPress={ () =>
-                            NavigationService.navigate("CameraScreen", {
-                            })
-                        }
-                    />
-                    <Button
-                        title="face book"
-                        onPress={ () =>
-                            NavigationService.navigate("FaceBookScreen", {
-                            }) }
-                    />
-                    <Button
-                        title="show modal"
-                        onPress={ this.showModal }
-                    />
-                    <Modal
-                        animationType="slide"
-                        transparent={ false }
-                        visible={ this.state.modalVisible }
-                        onRequestClose={ () => {
-                            Alert.alert('Modal has been closed.');
-                            this.showModal();
-                        } }>
-                        <View style={ { marginTop: 22 } }>
-                            <View>
-                                <Text>Hello World!</Text>
+                                firebase.notifications().displayNotification(notification);
+                            }
+                            }
+                        />
+                        <Button
+                            title={ i18n.t("login") }
+                            onPress={ () =>
+                                NavigationService.navigate("LoginScreen", {
+                                })
+                            }
+                        />
+                        <Button
+                            title="Image layout"
+                            onPress={ () =>
+                                NavigationService.navigate("ImageLayoutScreen", {
+                                })
+                            }
+                        />
+                        <Button
+                            title="goto Camera"
+                            onPress={ () =>
+                                NavigationService.navigate("CameraScreen", {
+                                })
+                            }
+                        />
+                        <Button
+                            title="face book"
+                            onPress={ () =>
+                                NavigationService.navigate("FaceBookScreen", {
+                                }) }
+                        />
+                        <Button
+                            title="show modal"
+                            onPress={ this.onPressServer }
+                        />
 
-                                <TouchableHighlight
-                                    onPress={ this.showModal }>
-                                    <Text>Hide Modal</Text>
-                                </TouchableHighlight>
-                            </View>
-                        </View>
-                    </Modal>
-                </Content>
-            </Container>
-
+                    </Content>
+                </Container>
+                {
+                    __DEV__ ? (
+                        <ServerButton visable={ this.state.modalVisible } click={ this.showModal } />
+                    ) : null
+                }
+            </View>
         );
+    }
+
+    onPressServer = () => {
+        this.showModal();
     }
 
     showModal = () => {
