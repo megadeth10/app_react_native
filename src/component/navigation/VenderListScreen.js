@@ -61,7 +61,7 @@ class VenderListScreen extends Component {
         console.debug(item);
         const { venId } = item.item;
         if (venId) {
-            NavigationService.navigate(AppStack.SCREEN_NAME[4].key, { compId: "DD1", venId });
+            NavigationService.navigate("StoreDetail", { compId: "DD1", venId });
         }
     }
 
