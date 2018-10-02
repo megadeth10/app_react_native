@@ -35,17 +35,12 @@ const ServerItem = function () {
     return items;
 }
 
-const SERVER_KEY = "SERVER_INDEX";
 class ServerButton extends Component {
     constructor(props) {
         super(props);
         this.state = {
             visable: props.visable,
-            buttonText: "테스트",
-            serverIndex: 0,
         }
-
-        this._retrieveData();
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -66,10 +61,9 @@ class ServerButton extends Component {
 
     render() {
         this.list = ServerItem().map((item, index) => {
-            const selectIndex = this.state.serverIndex;
-
+            
             let selectBackground = {};
-            if (index === selectIndex) {
+            if (Config.API_URL === item.url) {
                 selectBackground = {
                     backgroundColor: "#6a5acd"
                 };
@@ -88,9 +82,8 @@ class ServerButton extends Component {
         return (
             <View>
                 <TouchableOpacity style={ styles.button }
-                    onPress={ this.onPress }
-                >
-                    <Text style={ styles.buttonText }>{ "테스트" }</Text>
+                    onPress={ this.onPress } >
+                    <Text style={ styles.buttonText }>{ ServerItem().find( item => item.url === Config.API_URL).title }</Text>
                 </TouchableOpacity>
                 <Modal
                     animationType="slide"
@@ -110,41 +103,9 @@ class ServerButton extends Component {
         );
     }
 
-    _retrieveData = async () => {
-        await AsyncStorage.getItem(SERVER_KEY).then(value => {
-            console.log("_retrieveData() index : " + value);
-            if (value !== null) {
-                const data = ServerItem()[value];
-                this.setState({
-                    buttonText: update(this.state.buttonText, {
-                        $set: data.title
-                    }),
-                    serverIndex: update(this.state.serverIndex, {
-                        $set: parseInt(value)
-                    })
-                });
-            }
-        }).catch(err => {
-            console.log(err);
-        })
-
-    }
-
     onPressServer = (item, index) => {
-        this._storeData(index, item.url);
-    }
-
-    _storeData = async (index, url) => {
-        console.log("_storeData() index : " + index);
-        console.log("_storeData() url : " + url);
-        await AsyncStorage.setItem(SERVER_KEY, index.toString())
-            .then(() => {
-                Config.API_URL = url;
-                NavigationService.popToResetTop({ deeplink: this.deeplink, transition: "bottom" });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        Config.API_URL = item.url;
+        NavigationService.popToResetTop({ deeplink: this.deeplink, transition: "bottom" });
     }
 
     onPress = (e) => {
