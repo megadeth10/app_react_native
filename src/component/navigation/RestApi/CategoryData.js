@@ -1,7 +1,9 @@
+import Config from 'react-native-config';
+
 export default class CategoryData {
     static getFoodHomeData() {
         //http://14.63.172.164:80
-        return fetch('http://14.63.172.164:80/mobile/users/getFoodsHome.do', {
+        return fetch(`${Config.API_URL}/mobile/users/getFoodsHome.do`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -23,7 +25,7 @@ export default class CategoryData {
     }
 
     static getMainBestVender({ compId }) {
-        return fetch('http://14.63.172.164:80/mobile/users/getMainBestVendorList.do', {
+        return fetch(`${Config.API_URL}/mobile/users/getMainBestVendorList.do`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -45,7 +47,7 @@ export default class CategoryData {
     }
 
     static getVenderDetail({ compId, venId }) {
-        return fetch('http://14.63.172.164:80/mobile/users/getVendor.do', {
+        return fetch(`${Config.API_URL}/mobile/users/getVendor.do`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -68,7 +70,9 @@ export default class CategoryData {
     }
 
     static getCategoryVendors({ pageNum }) {
-        return fetch('http://14.63.172.164:80/mobile/users/selectVendorListV2.do', {
+        const url = `${Config.API_URL}/mobile/users/selectVendorListV2.do`;
+        console.log("getCategoryVendors() url = " + url);
+        return fetch(url, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -128,7 +132,7 @@ export default class CategoryData {
     }
 
     static getVersion() {
-        return fetch(`http://14.63.172.164:80/mobile/users/getTerms.do`, {
+        return fetch(`${Config.API_URL}/mobile/users/getTerms.do`, {
             method: "POST",
             headers: {
                 Accept: 'application/json',

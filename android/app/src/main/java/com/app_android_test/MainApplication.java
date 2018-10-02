@@ -8,8 +8,8 @@ import com.dooboolab.kakaologins.GlobalApplication;
 import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.facebook.react.ReactApplication;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import com.reactcommunity.rnlanguages.RNLanguagesPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -53,6 +53,7 @@ public class MainApplication extends GlobalApplication implements ReactApplicati
         protected List<ReactPackage> getPackages() {
             return Arrays.<ReactPackage>asList(
                     new MainReactPackage(),
+                    new ReactNativeConfigPackage(),
                     new RNLanguagesPackage(),
                     new FBSDKPackage(mCallbackManager),
                     new ImageResizerPackage(),

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Modal, Text, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
 import NavigationService from '../navigation/NavigationService';
 import update from 'immutability-helper';
+import Config from 'react-native-config';
 
 const propTypes = {
     visable: PropTypes.bool.isRequired,
@@ -21,13 +22,13 @@ const ServerItem = function () {
     if (__DEV__) {
         items.push({
             title: "테스트",
-            url: "14.63.172.164:80",
+            url: Config.API_TEST_URL,
         });
     }
 
     items.push({
         title: "리얼",
-        url: "www.ddingdong.net:443",
+        url: Config.API_REAL_URL,
     });
 
 
@@ -55,6 +56,12 @@ class ServerButton extends Component {
         } else {
             return null;
         }
+    }
+
+    componentWillUnmount() {
+        this.setState({
+            visable: false
+        });
     }
 
     render() {
@@ -124,13 +131,15 @@ class ServerButton extends Component {
     }
 
     onPressServer = (item, index) => {
-        this._storeData(index);
+        this._storeData(index, item.url);
     }
 
-    _storeData = async (index) => {
+    _storeData = async (index, url) => {
         console.log("_storeData() index : " + index);
+        console.log("_storeData() url : " + url);
         await AsyncStorage.setItem(SERVER_KEY, index.toString())
             .then(() => {
+                Config.API_URL = url;
                 NavigationService.popToResetTop({ deeplink: this.deeplink, transition: "bottom" });
             })
             .catch((err) => {
