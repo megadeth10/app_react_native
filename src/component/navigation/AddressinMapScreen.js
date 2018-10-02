@@ -114,17 +114,17 @@ class AddressinMapScreen extends Component {
         const { address_type, address, road_address } = rowData.item;
 
 
-        let display = undefined;
-        let where = ""
-        if ((address_type === "REGION") || (address_type === "REGION_ADDR")) {
-            display = address;
-            where = "지번 주소";
-        } else if ((address_type === "ROAD") || (address_type === "ROAD_ADDR")) {
-            display = road_address;
-            where = "도로명 주소";
-        }
+        // let regionDisplay = address;
+        // if ((address_type === "REGION") || (address_type === "REGION_ADDR")) {
+        //     regionDisplay = address;
+        //     regionWhere = "지번 주소";
+        // } else if ((address_type === "ROAD") || (address_type === "ROAD_ADDR")) {
+        //     regionDisplay = road_address;
+        //     regionWhere = "도로명 주소";
+        // }
 
-        const { region_1depth_name, region_2depth_name, region_3depth_name, road_name } = display;
+        let regionDisplay = address ? address.address_name : "";
+        let roadDisplay = road_address ? road_address.address_name : "";
 
         return (
             <TouchableOpacity onPress={ (e) => this._onPress(e, rowData.item) }>
@@ -144,10 +144,7 @@ class AddressinMapScreen extends Component {
                         backgroundColor: 'transparent',
                     } }>
                         <Text>
-                            { where + ": " + (region_1depth_name ? region_1depth_name : "")
-                                + (region_2depth_name ? " " + region_2depth_name : "")
-                                + (region_3depth_name ? " " + region_3depth_name : "")
-                                + (road_name ? " (" + road_name + ")" : "")
+                            { regionDisplay.length > 0 ? regionDisplay + "\n" + roadDisplay : roadDisplay
                             }
                         </Text>
                     </View>
