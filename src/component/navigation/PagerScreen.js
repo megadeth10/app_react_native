@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, View, Text, AppState, ViewPagerAndroid, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right } from 'native-base';
 import NavigationService from './NavigationService';
-import CategoryData from './RestApi/CategoryData';
+import {CategoryData} from './RestApi/CategoryData';
 import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';

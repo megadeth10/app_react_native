@@ -48,10 +48,25 @@ function popToResetTop(params) {
     _navigator.dispatch(resetAction);
 }
 
+function popToRestart(params) {
+    const resetAction = StackActions.reset({
+        index: 0,
+        actions: [
+            NavigationActions.navigate({
+                routeName: "SplashScreen",
+                params
+            })
+        ],
+    });
+
+    _navigator.dispatch(resetAction);
+}
+
 export default {
     navigate,
     setTopLevelNavigator,
     goBack,
     popToTop,
     popToResetTop,
+    popToRestart
 };

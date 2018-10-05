@@ -4,7 +4,7 @@ import { View, Image, Linking, Platform, NativeModules, AppState, Alert } from '
 import DeviceUtil from '../utils/DeviceUtil';
 import NavigationService from './NavigationService';
 import AppStack from './AppStack';
-import CategoryData from './RestApi/CategoryData';
+import {CategoryData, initServerUrl} from './RestApi/CategoryData';
 
 const propTypes = {
 }
@@ -15,7 +15,7 @@ const defaultProps = {
 class SplashScreen extends Component {
     constructor(props) {
         super(props);
-
+        initServerUrl();
         DeviceUtil.ratioSize(360, 360);
         this.deeplink = undefined;
         this.imageLoaded = false;
@@ -82,7 +82,7 @@ class SplashScreen extends Component {
     // }
 
     onLoadEnd = () => {
-        this.timer = setTimeout(this.imageLoadedChecker, 3000);
+        this.timer = setTimeout(this.imageLoadedChecker, 1);
     }
 
     imageLoadedChecker = () => {

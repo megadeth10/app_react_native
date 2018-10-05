@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, AppState, ViewPagerAndroid, StyleSheet, Image, Dimensions, FlatList, TouchableOpacity, ScrollView } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right, Button, Icon } from 'native-base';
-import CategoryData from '../navigation/RestApi/CategoryData';
+import {CategoryData} from '../navigation/RestApi/CategoryData';
 import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';

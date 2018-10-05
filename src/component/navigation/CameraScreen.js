@@ -129,6 +129,8 @@ class CameraScreen extends Component {
                                     Alert.alert('이미지 파일 오류.\n' + err);
                                 });
                         } else {
+                            console.log("resize image file(byte): " + response.fileSize);
+                            console.log("resize image file(path): " + absolutePath);
                             //파일명은 동일 하지만 uri의 paramter가 변경된것으로 인식하여 cache를 사용하지 않고 reload 함
                             this.setState({
                                 imageUrl: { uri: absolutePath + "?" + new Date() }

@@ -7,7 +7,7 @@ import NavigationService from './NavigationService';
 import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
-import CategoryData from './RestApi/CategoryData';
+import {CategoryData} from './RestApi/CategoryData';
 import CusImageView from '../view/CusImageView';
 
 const propTypes = {

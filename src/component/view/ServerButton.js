@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Modal, Text, StyleSheet, TouchableOpacity, AsyncStorage } from 'react-native';
+import { View, Modal, Text, StyleSheet, TouchableOpacity, TextInput, Keyboard } from 'react-native';
 import NavigationService from '../navigation/NavigationService';
 import update from 'immutability-helper';
-import Config from 'react-native-config';
+import { GetServerIndex, GetServerList, SetSaveIndex, setConfigUrl, MANUAL_URL, SetSaveLocalUrl } from '../navigation/RestApi/CategoryData';
 
 const propTypes = {
     visable: PropTypes.bool.isRequired,
@@ -16,30 +16,16 @@ const defaultProps = {
 }
 
 //build mode에 따라 config 파일을 분리하는 방법 또는 define을 하는 방법을 찾아야 한다.
-const ServerItem = function () {
-    let items = [];
-
-    if (__DEV__) {
-        items.push({
-            title: "테스트",
-            url: Config.API_TEST_URL,
-        });
-    }
-
-    items.push({
-        title: "리얼",
-        url: Config.API_REAL_URL,
-    });
-
-
-    return items;
-}
 
 class ServerButton extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             visable: props.visable,
+            items: [],
+            selectedIndex: 0,
+            manualText: ""
         }
     }
 
@@ -53,37 +39,87 @@ class ServerButton extends Component {
         }
     }
 
+    componentDidMount() {
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow);
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide);
+
+        GetServerIndex()
+            .then(result => {
+                this.setState({
+                    selectedIndex: result,
+                    prevIndex: result,
+                });
+            });
+
+        GetServerList()
+            .then(result => {
+                let text = "";
+                if(result && (result.length > 2)){
+                    text = result[2].url;
+                }
+                this.setState({
+                    items: result,
+                    manualText: text
+                });
+            });
+    }
+
     componentWillUnmount() {
+        this.keyboardDidShowListener.remove();
+        this.keyboardDidHideListener.remove();
+
         this.setState({
             visable: false
         });
     }
 
     render() {
-        this.list = ServerItem().map((item, index) => {
-            
+        let title = "";
+        const { selectedIndex } = this.state;
+
+        const list = this.state.items.map((item, index) => {
+
             let selectBackground = {};
-            if (Config.API_URL === item.url) {
+            if (index === selectedIndex) {
                 selectBackground = {
                     backgroundColor: "#6a5acd"
                 };
+                title = item.title;
             }
 
-            return (
-                <TouchableOpacity
-                    style={ [styles.modalItemView, selectBackground] }
-                    onPress={ () => this.onPressServer(item, index) }
-                    key={ `${index}` }>
-                    <Text style={ styles.modalItemText }>{ item.title }</Text>
-                </TouchableOpacity>
-            );
-        })
+            if (item.title === MANUAL_URL) {
+                return (
+                    <TouchableOpacity
+                        style={ [styles.modalItemView, selectBackground] }
+                        key={ `${index}` }
+                        onPress={ () => this.onChangeSelectedIndex(index) }>
+                        <Text style={ styles.modalItemText }>{ item.title }</Text>
+                        <TextInput
+                            editable={ true }
+                            multiline={ false }
+                            returnKeyType="done" placeholder="ex)http://10.0.0.1:80"
+                            ref="inputText" value={this.state.manualText}
+                            onChangeText={(manualText) => { this.setState({manualText})}}
+                        />
+                    </TouchableOpacity>
+                );
+            } else {
+                return (
+                    <TouchableOpacity
+                        style={ [styles.modalItemView, selectBackground] }
+                        key={ `${index}` }
+                        onPress={ () => this.onChangeSelectedIndex(index) }>
+                        <Text style={ styles.modalItemText }>{ item.title }</Text>
+                    </TouchableOpacity>
+                );
+            }
+        });
 
         return (
             <View>
                 <TouchableOpacity style={ styles.button }
                     onPress={ this.onPress } >
-                    <Text style={ styles.buttonText }>{ ServerItem().find( item => item.url === Config.API_URL).title }</Text>
+                    <Text style={ styles.buttonText }>{ title }</Text>
                 </TouchableOpacity>
                 <Modal
                     animationType="slide"
@@ -95,7 +131,19 @@ class ServerButton extends Component {
                     <View
                         style={ styles.modalRootView }>
                         <View style={ styles.modalChildView } >
-                            { this.list }
+                            { list }
+                            <View style={ { flexDirection: "row" } }>
+                                <TouchableOpacity
+                                    style={ styles.modalButtonView }
+                                    onPress={ () => this.onCancel() }>
+                                    <Text style={ styles.modalItemText }>취소</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={ styles.modalButtonView }
+                                    onPress={ () => this.onPressServer() }>
+                                    <Text style={ styles.modalItemText }>선택</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </Modal>
@@ -103,13 +151,47 @@ class ServerButton extends Component {
         );
     }
 
-    onPressServer = (item, index) => {
-        Config.API_URL = item.url;
-        NavigationService.popToResetTop({ deeplink: this.deeplink, transition: "bottom" });
+    _keyboardDidShow = () => {
+        this.isShowKeyboard = true;
+    }
+
+    _keyboardDidHide = () => {
+        this.isShowKeyboard = false;
+    }
+
+    onChangeSelectedIndex = (index) => {
+        this.setState({
+            selectedIndex: index
+        });
+    }
+
+    onCancel = () => {
+        const { prevIndex } = this.state;
+
+        this.setState({
+            selectedIndex: prevIndex
+        });
+        this.onPress();
+    }
+
+    onPressServer = () => {
+        const { selectedIndex, items, manualText } = this.state;
+
+        this.isShowKeyboard && Keyboard.dismiss();
+
+        SetSaveIndex(selectedIndex)
+            .then(result => {
+                if(selectedIndex == 2){
+                    SetSaveLocalUrl(manualText);
+                }
+                setConfigUrl(items[selectedIndex].url);
+                this.onPress();
+                NavigationService.popToRestart({ deeplink: this.deeplink, transition: "bottom" });
+            });
     }
 
     onPress = (e) => {
-        this.props.click && this.props.click(e)
+        this.props.click && this.props.click(e);
     }
 };
 
@@ -133,7 +215,7 @@ const styles = StyleSheet.create({
         fontSize: 11,
     },
     modalChildView: {
-        width: "50%", height: "25%",
+        width: "50%", height: "50%",
         backgroundColor: "white"
     },
     modalRootView: {
@@ -149,6 +231,11 @@ const styles = StyleSheet.create({
     modalItemText: {
         alignSelf: "center",
         fontSize: 20,
+    },
+    modalButtonView: {
+        flex: 1,
+        borderWidth: 1,
+        borderColor: '#000000',
     }
 });
 
