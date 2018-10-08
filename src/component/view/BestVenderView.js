@@ -74,7 +74,7 @@ class BestVenderView extends Component {
     }
 
     _onPress = (e, venId) => {
-        NavigationService.navigate(AppStack.SCREEN_NAME[4].key, { compId: this.props.compid, venId })
+        NavigationService.navigate("StoreDetail", { compId: this.props.compid, venId })
     }
 
     getData = (id) => {

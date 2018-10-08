@@ -250,7 +250,7 @@ class CategoryData {
 
     static getVersion() {
         const url = `${Config.API_URL}/mobile/users/getTerms.do`;
-        console.log("getVenderDetail() url = " + url);
+        console.log("getVersion() url = " + url);
         return fetch(url, {
             method: "POST",
             headers: {

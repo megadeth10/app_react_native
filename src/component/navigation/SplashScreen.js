@@ -82,7 +82,7 @@ class SplashScreen extends Component {
     // }
 
     onLoadEnd = () => {
-        this.timer = setTimeout(this.imageLoadedChecker, 1);
+        this.timer = setTimeout(this.imageLoadedChecker, 3000);
     }
 
     imageLoadedChecker = () => {
