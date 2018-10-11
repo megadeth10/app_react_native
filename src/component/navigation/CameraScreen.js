@@ -36,6 +36,12 @@ const options = {
     storageOptions: {
         skipBackup: true,
         path: 'images'
+    },
+    permissionDenied:{
+        title: "권한 설정 오류",
+        text:"카메라, 저장 등에 대한 권한을 허락 하지 않아 사용할 수 없습니다.",
+        reTryTitle:"권한 설정하기",
+        okTitle:"닫기"
     }
 };
 
