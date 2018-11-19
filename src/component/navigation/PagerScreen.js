@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, View, Text, AppState, ViewPagerAndroid, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Button, View, Text, Dimensions, ViewPagerAndroid, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Container, Header, Body, Title, Content, Left, Right } from 'native-base';
 import NavigationService from './NavigationService';
-import {CategoryData} from './RestApi/CategoryData';
+import { CategoryData } from './RestApi/CategoryData';
 import update from 'immutability-helper';
 import _ from 'lodash';
 import DeviceUtil from '../utils/DeviceUtil';
 import BestVenderView from '../view/BestVenderView';
 import AppStack from './AppStack';
+import { Swiper, TitleBar, TabBar } from 'react-native-awesome-viewpager';
+import InfiniteViewPager from '../pager/infiniteViewPager'
+import SwiperFlatList from 'react-native-swiper-flatlist';
 
 const propTypes = {
 }
@@ -22,6 +25,33 @@ const BANNER_TYPE = {
 
 const INTERVAL_TIME = 5000;
 
+const DATA = [
+    {
+        normal: 'http://image.ddingdong.net:8083/event/F0000000000000109513.jpg',
+        action: 'asdfasdfasfda'
+    },
+    {
+        normal: 'http://image.ddingdong.net:8083/vendor/F0000000000000294281.jpg',
+        action: 'asdfasdfasfda'
+    },
+    {
+        normal: 'http://image.ddingdong.net:8083/event/F0000000000000109513.jpg',
+        action: 'asdfasdfasfda'
+    },
+    {
+        normal: 'http://image.ddingdong.net:8083/vendor/F0000000000000294281.jpg',
+        action: 'asdfasdfasfda'
+    },
+    {
+        normal: 'http://image.ddingdong.net:8083/event/F0000000000000109513.jpg',
+        action: 'asdfasdfasfda'
+    },
+    {
+        normal: 'http://image.ddingdong.net:8083/vendor/F0000000000000294281.jpg',
+        action: 'asdfasdfasfda'
+    },
+];
+const { width, height } = Dimensions.get('window');
 class PagerScreen extends Component {
     constructor(props) {
         super(props);
@@ -37,19 +67,19 @@ class PagerScreen extends Component {
     }
 
     items = [
-        <View style={ styles.pageStyle } key={ 0 }>
-            <Image source={ { uri: "http://image.ddingdong.net:8083/event/F0000000000000109513.jpg" } }
-                style={ { height: "100%" } }
+        <View style={styles.pageStyle} key={0}>
+            <Image source={{ uri: "http://image.ddingdong.net:8083/event/F0000000000000109513.jpg" }}
+                style={{ height: "100%" }}
             />
         </View>,
-        <View style={ styles.pageStyle } key={ 1 }>
-            <Image source={ { uri: "http://image.ddingdong.net:8083/event/F0000000000000109513.jpg" } }
-                style={ { height: "100%" } }
+        <View style={styles.pageStyle} key={1}>
+            <Image source={{ uri: "http://image.ddingdong.net:8083/event/F0000000000000109513.jpg" }}
+                style={{ height: "100%" }}
             />
         </View>,
-        <View style={ styles.pageStyle } key={ 2 }>
-            <Image source={ { uri: "http://image.ddingdong.net:8083/event/F0000000000000109513.jpg" } }
-                style={ { height: "100%" } }
+        <View style={styles.pageStyle} key={2}>
+            <Image source={{ uri: "http://image.ddingdong.net:8083/event/F0000000000000109513.jpg" }}
+                style={{ height: "100%" }}
             />
         </View>,
     ];
@@ -89,20 +119,82 @@ class PagerScreen extends Component {
 
     render() {
         return (
-            <Container style={ { backgroundColor: "#ffffff" } }>
-                <Header style={ { backgroundColor: "#fdd002" } }>
+            <Container style={{ backgroundColor: "#ffffff" }}>
+                <Header style={{ backgroundColor: "#fdd002" }}>
                     <Body>
-                        <Title style={ { color: "#000000", paddingLeft: 20 } }>Pager</Title>
+                        <Title style={{ color: "#000000", paddingLeft: 20 }}>Pager</Title>
                     </Body>
                 </Header>
+                <View style={{
+                    flex: 1,
+                    backgroundColor: 'white'
+                }}>
+                    <SwiperFlatList
+                        autoplay
+                        autoplayDelay={3}
+                        autoplayLoop
+                        index={0}
+                        pagingEnabled
+                        showPagination
+                    >
+                        {
+                            DATA.map((item, index) =>
+                                (
+                                    <View key={item.normal} style={{
+                                        height: 100,
+                                        width,
+                                        justifyContent: 'center'
+                                    }}>
+                                        <TouchableOpacity onPress={(e) => this._onPress(e, item.action)} >
+                                            <Image source={{ uri: item.normal }} style={{ height: "100%" }}
+                                                resizeMode='contain'
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            )
+                        }
+                    </SwiperFlatList>
+                </View>
+                {/* <InfiniteViewPager style={{ width: '100%', height: 50 }}
+                    dataSource={this.state.mainBannerItems} /> */}
+                {/* <Swiper
+                    style={{
+                        flex: 1,
+                        backgroundColor: '#efdeed',
+                        flexDirection: 'column',
+                    }}
+                    loop={true}
+                    autoplay={true}
+                    interval={2000}
+                    scrollEnabled={true}
+                    indicator={true}
+                    initialPage={0}
+                >
+                    {
+                        this.state.mainBannerItems.length > 0
+                            ? this.state.mainBannerItems.map((item, index) =>
+                                (
+                                    <View key={item.normal} >
+                                        <TouchableOpacity onPress={(e) => this._onPress(e, item.action)} >
+                                            <Image source={{ uri: item.normal }} style={{ height: "100%" }}
+                                                resizeMode='contain'
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                )
+                            )
+                            : undefined
+                    }
+                </Swiper> */}
                 <ViewPagerAndroid
-                    style={ styles.viewPager }
-                    onPageSelected={ this.pageSelected }
-                    initialPage={ 0 }>
-                    { this.state.item }
+                    style={styles.viewPager}
+                    onPageSelected={this.pageSelected}
+                    initialPage={0}>
+                    {this.state.item}
                 </ViewPagerAndroid>
-                { this.renderTopPagerData() }
-                { this.renderMainPagerData() }
+                {this.renderTopPagerData()}
+                {this.renderMainPagerData()}
                 <Text>베스트 상점</Text>
                 <Content>
                     <BestVenderView compid="DD1" />
@@ -111,6 +203,7 @@ class PagerScreen extends Component {
                 <Content>
                     <BestVenderView compid="DD1" />
                 </Content>
+
             </Container>
         );
     }
@@ -150,19 +243,19 @@ class PagerScreen extends Component {
 
         if (topBannerItems.length > 0) {
             return (<ViewPagerAndroid
-                ref={ ref => this.topBannerComp = ref }
-                style={ styles.topViewPager }
-                onPageSelected={ this.onPageTop }
-                initialPage={ this.topBannerIndex }>
-                { topBannerItems.map((item, index) =>
+                ref={ref => this.topBannerComp = ref}
+                style={styles.topViewPager}
+                onPageSelected={this.onPageTop}
+                initialPage={this.topBannerIndex}>
+                {topBannerItems.map((item, index) =>
                     (
-                        <View style={ styles.pageStyle } key={ item.normal } >
-                            <TouchableOpacity onPress={ (e) => this._onPress(e, item.action) } >
-                                <Image source={ { uri: item.normal } } style={ { height: "100%" } } />
+                        <View style={styles.pageStyle} key={item.normal} >
+                            <TouchableOpacity onPress={(e) => this._onPress(e, item.action)} >
+                                <Image source={{ uri: item.normal }} style={{ height: "100%" }} />
                             </TouchableOpacity>
                         </View>
                     )
-                ) }
+                )}
             </ViewPagerAndroid>);
         } else {
             return null;
@@ -174,7 +267,7 @@ class PagerScreen extends Component {
         const { type, data } = item;
         if ((type === "topbannerurl") && (data.length > 0)) {
             const url = data[0];
-            
+
             NavigationService.navigate(AppStack.SCREEN_NAME[8].key, {
                 url
             });
@@ -191,19 +284,19 @@ class PagerScreen extends Component {
 
         if (mainBannerItems.length > 0) {
             return (<ViewPagerAndroid
-                ref={ ref => this.mainBannerComp = ref }
-                style={ styles.mainViewPager }
-                onPageSelected={ this.onPageMain }
-                initialPage={ this.mainBannerIndex }>
-                { mainBannerItems.map((item, index) =>
+                ref={ref => this.mainBannerComp = ref}
+                style={styles.mainViewPager}
+                onPageSelected={this.onPageMain}
+                initialPage={this.mainBannerIndex}>
+                {mainBannerItems.map((item, index) =>
                     (
-                        <View style={ styles.pageStyle } key={ item.normal } >
-                            <TouchableOpacity onPress={ (e) => this._onPress(e, item.action) } >
-                                <Image source={ { uri: item.normal } } style={ { height: "100%" } } />
+                        <View style={styles.pageStyle} key={item.normal} >
+                            <TouchableOpacity onPress={(e) => this._onPress(e, item.action)} >
+                                <Image source={{ uri: item.normal }} style={{ height: "100%" }} />
                             </TouchableOpacity>
                         </View>
                     )
-                ) }
+                )}
             </ViewPagerAndroid>);
         } else {
             return null;
