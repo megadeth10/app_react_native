@@ -13,6 +13,7 @@ import LoginScreen from './LoginScreen';
 import ImageLayoutScreen from './ImageLayoutScreen';
 import CameraScreen from './CameraScreen';
 import FaceBookScreen from './FaceBookScreen';
+import HeaderScrollView from '../ParallaxScroll/HeaderScrollView';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
 import { Easing, Animated } from 'react-native';
@@ -143,6 +144,15 @@ function setScreenName() {
             key: "FaceBookScreen",
             value: {
                 screen: FaceBookScreen,
+                navigationOptions: {
+                    header: null
+                }
+            }
+        },
+        {
+            key: "HeaderScrollView",
+            value: {
+                screen: HeaderScrollView,
                 navigationOptions: {
                     header: null
                 }

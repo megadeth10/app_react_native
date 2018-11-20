@@ -145,17 +145,17 @@ class HomeScreen extends Component {
     render() {
         const { userInfo } = this.props;
         return (
-            <View style={ { flex: 1 } }>
-                <Container style={ { backgroundColor: "#ffffff" } }>
-                    <Header style={ { backgroundColor: "#fdd002" } }>
+            <View style={{ flex: 1 }}>
+                <Container style={{ backgroundColor: "#ffffff" }}>
+                    <Header style={{ backgroundColor: "#fdd002" }}>
                         <Body>
-                            <Title style={ { color: "#000000", paddingLeft: 20 } }>Home{ + __DEV__ ? "  debug" : "  release" }</Title>
+                            <Title style={{ color: "#000000", paddingLeft: 20 }}>Home{+ __DEV__ ? "  debug" : "  release"}</Title>
                         </Body>
                     </Header>
                     <Content>
                         <Button
                             title="Go to Category"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("Category", {
                                     itemId: 86,
                                     otherParam: 'anything you want here',
@@ -165,22 +165,22 @@ class HomeScreen extends Component {
                         />
                         <Button
                             title="Go to Detail"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("Details", {
                                 })
                             }
                         />
-                        <Text>{ userInfo ? userInfo.name : "" }</Text>
+                        <Text>{userInfo ? userInfo.name : ""}</Text>
                         <Button
                             title="Go to Pager"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("Pager", {
                                 })
                             }
                         />
                         <Button
                             title="Go to venderList"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("VenderListScreen", {
                                     transition: "scale"
                                 })
@@ -188,7 +188,7 @@ class HomeScreen extends Component {
                         />
                         <Button
                             title="find my position"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("AddressinMapScreen", {
                                     transition: "bottom"
                                 })
@@ -196,7 +196,7 @@ class HomeScreen extends Component {
                         />
                         <Button
                             title="input screen"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("InputScreen", {
                                     transition: "up"
                                 })
@@ -204,14 +204,14 @@ class HomeScreen extends Component {
                         />
                         <Button
                             title="결제 화면"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("WebViewScreen", {
                                 })
                             }
                         />
                         <Button
                             title="send notify"
-                            onPress={ () => {
+                            onPress={() => {
                                 const notification = new firebase.notifications.Notification();
                                 notification.setNotificationId("2");
                                 notification.setTitle("샘플 노티");
@@ -224,42 +224,47 @@ class HomeScreen extends Component {
                             }
                         />
                         <Button
-                            title={ i18n.t("login") }
-                            onPress={ () =>
+                            title={i18n.t("login")}
+                            onPress={() =>
                                 NavigationService.navigate("LoginScreen", {
                                 })
                             }
                         />
                         <Button
                             title="Image layout"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("ImageLayoutScreen", {
                                 })
                             }
                         />
                         <Button
                             title="goto Camera"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("CameraScreen", {
                                 })
                             }
                         />
                         <Button
                             title="face book"
-                            onPress={ () =>
+                            onPress={() =>
                                 NavigationService.navigate("FaceBookScreen", {
-                                }) }
+                                })}
                         />
                         <Button
                             title="show modal"
-                            onPress={ this.onPressServer }
+                            onPress={this.onPressServer}
+                        />
+                        <Button
+                            title="parallax scroll view"
+                            onPress={() => NavigationService.navigate("HeaderScrollView", {
+                            })}
                         />
 
                     </Content>
                 </Container>
                 {
                     __DEV__ ? (
-                        <ServerButton visable={ this.state.modalVisible } click={ this.showModal } />
+                        <ServerButton visable={this.state.modalVisible} click={this.showModal} />
                     ) : null
                 }
             </View>
