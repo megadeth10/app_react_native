@@ -13,6 +13,7 @@ import LoginScreen from './LoginScreen';
 import ImageLayoutScreen from './ImageLayoutScreen';
 import CameraScreen from './CameraScreen';
 import FaceBookScreen from './FaceBookScreen';
+import AccordionScreen from './AccordionScreen';
 import HeaderScrollView from '../ParallaxScroll/HeaderScrollView';
 import NavigationService from './NavigationService';
 import React, { Component } from 'react';
@@ -158,6 +159,16 @@ function setScreenName() {
                 }
             }
         },
+        {
+            key: "AccordionScreen",
+            value: {
+                screen: AccordionScreen,
+                navigationOptions: {
+                    header: null
+                }
+            }
+        },
+
     ];
 }
 

@@ -259,6 +259,11 @@ class HomeScreen extends Component {
                             onPress={() => NavigationService.navigate("HeaderScrollView", {
                             })}
                         />
+                        <Button
+                            title="Accodion View"
+                            onPress={() => NavigationService.navigate("AccordionScreen", {
+                            })}
+                        />
 
                     </Content>
                 </Container>

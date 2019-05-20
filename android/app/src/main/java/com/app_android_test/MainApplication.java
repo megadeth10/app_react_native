@@ -1,10 +1,11 @@
 package com.app_android_test;
 
+import android.app.Application;
+
 import com.airbnb.android.react.maps.MapsPackage;
 import com.app_android_test.fingerpush.FingerPushPackage;
 import com.app_android_test.kakaolink.KakaoLinkPackage;
 import com.app_android_test.utils.UtilPackage;
-import com.dooboolab.kakaologins.GlobalApplication;
 import com.dooboolab.kakaologins.RNKakaoLoginsPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
@@ -17,7 +18,6 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.soloader.SoLoader;
 import com.imagepicker.ImagePickerPackage;
-import com.microsoft.codepush.react.CodePush;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +28,7 @@ import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 
-public class MainApplication extends GlobalApplication implements ReactApplication {
+public class MainApplication extends Application implements ReactApplication {
     //facebook sdk
     private static CallbackManager mCallbackManager = new CallbackManager.Factory().create();
 
@@ -39,10 +39,6 @@ public class MainApplication extends GlobalApplication implements ReactApplicati
 
     private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
 
-        @Override
-        protected String getJSBundleFile() {
-            return CodePush.getJSBundleFile();
-        }
 
         @Override
         public boolean getUseDeveloperSupport() {
@@ -59,7 +55,6 @@ public class MainApplication extends GlobalApplication implements ReactApplicati
                     new ImageResizerPackage(),
                     new ImagePickerPackage(),
                     new RNKakaoLoginsPackage(),
-                    new CodePush("i8fSpvyA39nFOUhLDLMlvh4G69vkryY2eeY8m", getApplicationContext(), BuildConfig.DEBUG),
                     new MapsPackage(),
                     new CustomToastPackage(),
                     new RNFirebasePackage(),
