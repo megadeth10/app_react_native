@@ -230,7 +230,7 @@ const transitionConfig = () => {
 
 function getStack() {
     if (AStack === undefined) {
-        const screenMap = {};
+        let screenMap = {};
         for (item of SCREEN_NAME) {
             screenMap = { ...screenMap, [item.key]: item.value };
         }
